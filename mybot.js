@@ -7,16 +7,31 @@ function make_move() {
    // we found an item! take it!
    if (board[get_my_x()][get_my_y()] > 0) {
        return TAKE;
-   }
+   };
+   
+   
+	// var MyLocation = [get_my_x()get_my()];
+	
+	
+	
+if (has_item([get_my_x(),get_my_y()+1])) {
+	Action =  NORTH;
+	ElseIf (has_item([get_my_x(),get_my_y()-1])); 
+	Action =  SOUTH;
+	ElseIf (has_item([get_my_x()+1,get_my_y()]));
+	Action =  WEST;
+	ElseIf (has_item([get_my_x()-1,get_my_y()])); 
+	Action =  EAST;
+}; //end if has_item()
 
    var rand = Math.random() * 4;
 
-   if (rand < 1) return NORTH;
-   if (rand < 2) return SOUTH;
-   if (rand < 3) return EAST;
-   if (rand < 4) return WEST;
+   if (rand < 1) Action =  NORTH;
+   if (rand < 2) Action =  SOUTH;
+   if (rand < 3) Action =  EAST;
+   if (rand < 4) Action =  WEST;
 
-   return PASS;
+   return Action;
 }
 
 // Optionally include this function if you'd like to always reset to a 
