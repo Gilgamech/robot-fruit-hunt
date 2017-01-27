@@ -12,37 +12,37 @@ function make_move() {
 		return TAKE;
    };
 
-//board.length // (Width AKA x)
-//board[1].length // (Heigh AKA y)
-for (j = 0; j < board[1].length; j++) { 
-	for (i = 0; i < board.length; i++) { 
+//WIDTH // (Width AKA x)
+//HEIGHT // (Heigh AKA y)
+for (j = 0; j < HEIGHT; j++) { 
+	for (i = 0; i < WIDTH; i++) { 
 	   // Look around us for more items to take.
-		if ([get_my_y() + j] < board[1].length) {
+		if ([get_my_y() + j] < HEIGHT) {
 			if (board[get_my_x()][get_my_y() + j] > 0) {
-				console.log("Item located at " + [get_my_x()] + ", " + [get_my_y()+ j]);
+				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()+ j]);
 				return SOUTH;
 		   }; //end if y+j
-	   }; //end if y+j > board[1].length
+	   }; //end if y+j > HEIGHT
 		if ([get_my_y() - j] > 0) {
 			if (board[get_my_x()][get_my_y() - j] > 0) { 
-				console.log("Item located at " + [get_my_x()] + ", " + [get_my_y()] -j);
+				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y()] -j);
 				return NORTH;
 		   }; //end if y- j
-	   }; //end if y-j > board[1].length
-		if ([get_my_x() + i] < board.length) {
+	   }; //end if y-j > HEIGHT
+		if ([get_my_x() + i] < WIDTH) {
 			if (board[get_my_x() + i][get_my_y()] > 0) {
-				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()]);
+				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y() - j]);
 				return EAST;
 		   }; //end if x+i
-	   }; //end if x+i > board.length
+	   }; //end if x+i > WIDTH
 		if ([get_my_x() - i] > 0) {
 			if (board[get_my_x() - i][get_my_y()] > 0) {
-				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y()]);
+				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() + j]);
 				return WEST;
 		   }; //end if x-i
-	   }; //end if x-i > board.length
-	}; //end for board.length
-}; //end for board[1].length
+	   }; //end if x-i > WIDTH
+	}; //end for WIDTH
+}; //end for HEIGHT
 
 	
 	//Otherwise, move randomly.
@@ -50,26 +50,25 @@ for (j = 0; j < board[1].length; j++) {
    if (rand < 1) { 
 		console.log("Rand North");
 	   return NORTH;
-   };
+   }; //end if rand 
    if (rand < 2) {
 		console.log("Rand South");
 	   return SOUTH;
-   };	
+   }; //end if rand 
 	if (rand < 3) { 
 		console.log("Rand East");
 	   return EAST;
-   };	
+   }; //end if rand 
 	if (rand < 4) {
 		console.log("Rand West");
 		return WEST;
-   };	
-   // }; //end if rand
+   }; //end if rand 
 
 	console.log("Default");
 	console.log(rand);
 
 	return PASS;
-}
+} //end make_move 
 
 // Optionally include this function if you'd like to always reset to a 
 // certain board number/layout. This is useful for repeatedly testing your
