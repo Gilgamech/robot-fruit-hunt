@@ -4,55 +4,63 @@ function new_game() {
 
 function make_move() {
    var board = get_board();
+	console.log("Current location: " + [get_my_x()] + ", " + [get_my_y()]);
 
    // we found an item! take it!
    if (board[get_my_x()][get_my_y()] > 0) {
-		console.log(has_item(board[get_my_x(),get_my_y()]));
-       return TAKE;
+		console.log("Taking item at: " + [get_my_x()] + ", " + [get_my_y()]);
+		return TAKE;
    };
-	
-	// Look around us for more items to take.
-	if (has_item(board[get_my_x(),get_my_y() + 1])) {
-		console.log(has_item(board[get_my_x(),get_my_y()+1]));
-		console.log("Item located at" + [get_my_x(),get_my_y()]);
-		return NORTH;
-   };
-	if (has_item(board[get_my_x(),get_my_y()-1])) { 
-		console.log(has_item(board[get_my_x(),get_my_y() -1])); 
-		console.log("Item located at" + [get_my_x(),get_my_y()]);
-		return SOUTH;
-   };
-	if (has_item(board[get_my_x()+1,get_my_y()])) {
-		console.log(has_item(board[get_my_x() +1,get_my_y()]));
-		console.log("Item located at" + [get_my_x(),get_my_y()]);
-		return WEST;
-   };
-	if (has_item(board[get_my_x()-1,get_my_y()])) {
-		console.log(has_item(board[get_my_x() -1,get_my_y()])); 
-		console.log("Item located at" + [get_my_x(),get_my_y()]);
-		return EAST;
-	}; //end if has_item()
+
+//board.length // (Width AKA x)
+//board[1].length // (Heigh AKA y)
+for (j = 0; j < board[1].length; j++) { 
+	for (i = 0; i < board.length; i++) { 
+	   // Look around us for more items to take.
+		if ([get_my_y() + j] < board[1].length) {
+			if (board[get_my_x()][get_my_y() + j] > 0) {
+				console.log("Item located at " + [get_my_x()] + ", " + [get_my_y()+ j]);
+				return SOUTH;
+		   }; //end if y+j
+	   }; //end if y+j > board[1].length
+		if ([get_my_y() - j] > 0) {
+			if (board[get_my_x()][get_my_y() - j] > 0) { 
+				console.log("Item located at " + [get_my_x()] + ", " + [get_my_y()] -j);
+				return NORTH;
+		   }; //end if y- j
+	   }; //end if y-j > board[1].length
+		if ([get_my_x() + i] < board.length) {
+			if (board[get_my_x() + i][get_my_y()] > 0) {
+				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()]);
+				return EAST;
+		   }; //end if x+i
+	   }; //end if x+i > board.length
+		if ([get_my_x() - i] > 0) {
+			if (board[get_my_x() - i][get_my_y()] > 0) {
+				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y()]);
+				return WEST;
+		   }; //end if x-i
+	   }; //end if x-i > board.length
+	}; //end for board.length
+}; //end for board[1].length
+
 	
 	//Otherwise, move randomly.
    var rand = (Math.random() * 4);
    if (rand < 1) { 
-		console.log(rand);
 		console.log("Rand North");
 	   return NORTH;
    };
    if (rand < 2) {
-		console.log(rand);
 		console.log("Rand South");
 	   return SOUTH;
    };	
 	if (rand < 3) { 
 		console.log("Rand East");
-		console.log(rand);
 	   return EAST;
    };	
 	if (rand < 4) {
 		console.log("Rand West");
-		console.log(rand);
 		return WEST;
    };	
    // }; //end if rand
@@ -60,7 +68,7 @@ function make_move() {
 	console.log("Default");
 	console.log(rand);
 
-	return SOUTH;
+	return PASS;
 }
 
 // Optionally include this function if you'd like to always reset to a 
@@ -78,7 +86,7 @@ function make_move() {
 // Returns the current board.
 // It's an array of arrays, so 
 //  board = get_board();
-//  field = board[x][y];
+//  field = board[x,y];
 // can be used to get a position.
 // function get_board()
 
@@ -97,7 +105,7 @@ function make_move() {
 // TAKE = <constant used to represent taking a piece of fruit if it exists on the cell>
 // PASS = <constant used to represent passing the turn>
 
-// (Deprecated) For a given field (board[x][y]), if there's a fruit at
+// (Deprecated) For a given field (board[x,y]), if there's a fruit at
 // that position, return the index of that fruit (starting with 1),
 // or false if there's no fruit there. This is a convenience
 // function that checks whether field>0.
