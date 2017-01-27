@@ -17,37 +17,63 @@ for (y = 1; y < HEIGHT; y++) {
 //WIDTH // (AKA x)
 	for (x = 1; x < WIDTH; x++) { 
 	   // Look around us for more items to take.
-	if (
-		[get_my_y() + j] > 0 
-		&& [get_my_y() + j] < HEIGHT
-		&& [get_my_y() - j] > 0 
-		&& [get_my_y() - j] < HEIGHT
-		&& [get_my_x() + i] > 0 
-		&& [get_my_x() + i] < WIDTH
-		&& [get_my_x() - i] > 0 
-		&& [get_my_x() - i] < WIDTH
-	){
-	console.log("Scanning location: " + [get_my_x() + i] + ", " + [get_my_y()+ j]);
-		if (board[get_my_x() + i][get_my_y() + j] > 0) {
-			console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()+ j] + " - Moving South");
-			return NORTH;
-	   }; //end if y+j
-	console.log("Scanning location: " + [get_my_x() - i] + ", " + [get_my_y() - j]);
-		if (board[get_my_x() - i][get_my_y() - j] > 0) { 
-			console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() - j] + " - Moving North");
-			return SOUTH;
-	   }; //end if y- j
-	console.log("Scanning location: " + [get_my_x() + i] + ", " + [get_my_y() - j]);
-		if (board[get_my_x() + i][get_my_y() - j] > 0) {
-			console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y() - j] + " - Moving East");
-			return EAST;
-	   }; //end if x+i
-	console.log("Scanning location: " + [get_my_x() - i] + ", " + [get_my_y() + j]);
-		if (board[get_my_x() - i][get_my_y() + j] > 0) {
-			console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() + j] + " - Moving West");
-			return WEST;
-	   }; //end if x-i
-   }; //end if multiple
+		if (
+			[get_my_y() + y] > 0 
+			&& [get_my_y() + y] < HEIGHT
+			&& [get_my_y() - y] > 0 
+			&& [get_my_y() - y] < HEIGHT
+			&& [get_my_x() + x] > 0 
+			&& [get_my_x() + x] < WIDTH
+			&& [get_my_x() - x] > 0 
+			&& [get_my_x() - x] < WIDTH
+		){
+
+		// Direct looking.
+		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y()]);
+			if (board[get_my_x() + x][get_my_y()] > 0) {
+				console.log("Item located direct at " + [get_my_x() + x] + ", " + [get_my_y()] + " - Moving East");
+				return EAST;
+		   }; //end if y+y
+		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y()]);
+			if (board[get_my_x() - x][get_my_y()] > 0) { 
+				console.log("Item located direct at " + [get_my_x() - x] + ", " + [get_my_y()] + " - Moving West");
+				return WEST;
+		   }; //end if y- y
+		console.log("Scanning location: " + [get_my_x()] + ", " + [get_my_y() - y]);
+			if (board[get_my_x()][get_my_y() - y] > 0) {
+				console.log("Item located direct at " + [get_my_x()] + ", " + [get_my_y() - y] + " - Moving South");
+				return SOUTH;
+		   }; //end if x+i
+		console.log("Scanning location: " + [get_my_x()] + ", " + [get_my_y() + y]);
+			if (board[get_my_x()][get_my_y() + y] > 0) {
+				console.log("Item located direct at " + [get_my_x()] + ", " + [get_my_y() + y] + " - Moving North");
+				return NORTH;
+		   }; //end if x-i
+		   console.log("No fruit along row or column.")
+		   
+		// Diagonal looking.
+		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y()+ y]);
+			if (board[get_my_x() + x][get_my_y() + y] > 0) {
+				console.log("Item located diagonally at " + [get_my_x() + x] + ", " + [get_my_y()+ y] + " - Item Northeast, Moving North");
+				return NORTH;
+		   }; //end if y+y
+		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y() - y]);
+			if (board[get_my_x() - x][get_my_y() - y] > 0) { 
+				console.log("Item located diagonally at " + [get_my_x() - x] + ", " + [get_my_y() - y] + " - Item Southwest, Moving South");
+				return SOUTH;
+		   }; //end if y- y
+		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y() - y]);
+			if (board[get_my_x() + x][get_my_y() - y] > 0) {
+				console.log("Item located diagonally at " + [get_my_x() + x] + ", " + [get_my_y() - y] + " - Item Southeast, Moving East");
+				return EAST;
+		   }; //end if x+i
+		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y() + y]);
+			if (board[get_my_x() - x][get_my_y() + y] > 0) {
+				console.log("Item located diagonally at " + [get_my_x() - x] + ", " + [get_my_y() + y] + " - Item Northwest, Moving West");
+				return WEST;
+		   }; //end if x-i
+		console.log("No fruit found diagonally.")
+	   }; //end if multiple
 	}; //end for WIDTH
 }; //end for HEIGHT
 
