@@ -12,10 +12,10 @@ function make_move() {
 		return TAKE;
    };
 
-//WIDTH // (Width AKA x)
-//HEIGHT // (Heigh AKA y)
-for (j = 0; j < HEIGHT; j++) { 
-	for (i = 0; i < WIDTH; i++) { 
+//WIDTH // (AKA x)
+for (j = 1; j < HEIGHT; j++) { 
+//HEIGHT // (AKA y)
+	for (i = 1; i < WIDTH; i++) { 
 	   // Look around us for more items to take.
 		if ([get_my_y() + j] < HEIGHT) {
 			if (board[get_my_x()][get_my_y() + j] > 0) {
