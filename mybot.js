@@ -17,30 +17,37 @@ for (j = 1; j < HEIGHT; j++) {
 //HEIGHT // (AKA y)
 	for (i = 1; i < WIDTH; i++) { 
 	   // Look around us for more items to take.
-		if ([get_my_y() + j] < HEIGHT) {
-			if (board[get_my_x()][get_my_y() + j] > 0) {
-				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()+ j]);
-				return SOUTH;
-		   }; //end if y+j
-	   }; //end if y+j > HEIGHT
-		if ([get_my_y() - j] > 0) {
-			if (board[get_my_x()][get_my_y() - j] > 0) { 
-				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y()] -j);
-				return NORTH;
-		   }; //end if y- j
-	   }; //end if y-j > HEIGHT
-		if ([get_my_x() + i] < WIDTH) {
-			if (board[get_my_x() + i][get_my_y()] > 0) {
-				console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y() - j]);
-				return EAST;
-		   }; //end if x+i
-	   }; //end if x+i > WIDTH
-		if ([get_my_x() - i] > 0) {
-			if (board[get_my_x() - i][get_my_y()] > 0) {
-				console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() + j]);
-				return WEST;
-		   }; //end if x-i
-	   }; //end if x-i > WIDTH
+	if (
+		[get_my_y() + j] > 0 
+		&& [get_my_y() + j] < HEIGHT
+		&& [get_my_y() - j] > 0 
+		&& [get_my_y() - j] < HEIGHT
+		&& [get_my_x() + i] > 0 
+		&& [get_my_x() + i] < WIDTH
+		&& [get_my_x() - i] > 0 
+		&& [get_my_x() - i] < WIDTH
+	){
+	console.log("Scanning location: " + [get_my_x() + i] + ", " + [get_my_y()+ j]);
+		if (board[get_my_x() + i][get_my_y() + j] > 0) {
+			console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y()+ j] + " - Moving South");
+			return NORTH;
+	   }; //end if y+j
+	console.log("Scanning location: " + [get_my_x() - i] + ", " + [get_my_y() - j]);
+		if (board[get_my_x() - i][get_my_y() - j] > 0) { 
+			console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() - j] + " - Moving North");
+			return SOUTH;
+	   }; //end if y- j
+	console.log("Scanning location: " + [get_my_x() + i] + ", " + [get_my_y() - j]);
+		if (board[get_my_x() + i][get_my_y() - j] > 0) {
+			console.log("Item located at " + [get_my_x() + i] + ", " + [get_my_y() - j] + " - Moving East");
+			return EAST;
+	   }; //end if x+i
+	console.log("Scanning location: " + [get_my_x() - i] + ", " + [get_my_y() + j]);
+		if (board[get_my_x() - i][get_my_y() + j] > 0) {
+			console.log("Item located at " + [get_my_x() - i] + ", " + [get_my_y() + j] + " - Moving West");
+			return WEST;
+	   }; //end if x-i
+   }; //end if multiple
 	}; //end for WIDTH
 }; //end for HEIGHT
 
