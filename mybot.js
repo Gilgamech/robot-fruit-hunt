@@ -50,7 +50,25 @@ for (y = 1; y < HEIGHT; y++) {
 				return NORTH;
 		   }; //end if x-i
 		   console.log("No fruit along row or column.")
+	   }; //end if multiple
+	}; //end for WIDTH
+}; //end for HEIGHT
 		   
+for (y = 1; y < HEIGHT; y++) { 
+//WIDTH // (AKA x)
+	for (x = 1; x < WIDTH; x++) { 
+	   // Look around us for more items to take.
+		if (
+			[get_my_y() + y] > 0 
+			&& [get_my_y() + y] < HEIGHT
+			&& [get_my_y() - y] > 0 
+			&& [get_my_y() - y] < HEIGHT
+			&& [get_my_x() + x] > 0 
+			&& [get_my_x() + x] < WIDTH
+			&& [get_my_x() - x] > 0 
+			&& [get_my_x() - x] < WIDTH
+		){
+
 		// Diagonal looking.
 		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y()+ y]);
 			if (board[get_my_x() + x][get_my_y() + y] > 0) {
