@@ -1,3 +1,4 @@
+//board 267487
 function new_game() {
 }
 
@@ -6,32 +7,60 @@ function make_move() {
 
    // we found an item! take it!
    if (board[get_my_x()][get_my_y()] > 0) {
+		console.log(has_item(board[get_my_x(),get_my_y()]));
        return TAKE;
    };
-   
-   
-	// var MyLocation = [get_my_x()get_my()];
 	
+	// Look around us for more items to take.
+	if (has_item(board[get_my_x(),get_my_y() + 1])) {
+		console.log(has_item(board[get_my_x(),get_my_y()+1]));
+		console.log("Item located at" + [get_my_x(),get_my_y()]);
+		return NORTH;
+   };
+	if (has_item(board[get_my_x(),get_my_y()-1])) { 
+		console.log(has_item(board[get_my_x(),get_my_y() -1])); 
+		console.log("Item located at" + [get_my_x(),get_my_y()]);
+		return SOUTH;
+   };
+	if (has_item(board[get_my_x()+1,get_my_y()])) {
+		console.log(has_item(board[get_my_x() +1,get_my_y()]));
+		console.log("Item located at" + [get_my_x(),get_my_y()]);
+		return WEST;
+   };
+	if (has_item(board[get_my_x()-1,get_my_y()])) {
+		console.log(has_item(board[get_my_x() -1,get_my_y()])); 
+		console.log("Item located at" + [get_my_x(),get_my_y()]);
+		return EAST;
+	}; //end if has_item()
 	
-	
-if (has_item([get_my_x(),get_my_y()+1])) {
-	Action =  NORTH;
-	ElseIf (has_item([get_my_x(),get_my_y()-1])); 
-	Action =  SOUTH;
-	ElseIf (has_item([get_my_x()+1,get_my_y()]));
-	Action =  WEST;
-	ElseIf (has_item([get_my_x()-1,get_my_y()])); 
-	Action =  EAST;
-}; //end if has_item()
+	//Otherwise, move randomly.
+   var rand = (Math.random() * 4);
+   if (rand < 1) { 
+		console.log(rand);
+		console.log("Rand North");
+	   return NORTH;
+   };
+   if (rand < 2) {
+		console.log(rand);
+		console.log("Rand South");
+	   return SOUTH;
+   };	
+	if (rand < 3) { 
+		console.log("Rand East");
+		console.log(rand);
+	   return EAST;
+   };	
+	if (rand < 4) {
+		console.log("Rand West");
+		console.log(rand);
+		return WEST;
+   };	
+   // }; //end if rand
 
-   var rand = Math.random() * 4;
+	console.log("Default");
+	console.log(rand);
 
-   if (rand < 1) Action =  NORTH;
-   if (rand < 2) Action =  SOUTH;
-   if (rand < 3) Action =  EAST;
-   if (rand < 4) Action =  WEST;
-
-   return Action;
+	return SOUTH;
 }
 
 // Optionally include this function if you'd like to always reset to a 
