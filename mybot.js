@@ -4,97 +4,60 @@ function new_game() {
 
 function make_move() {
    var board = get_board();
-	console.log("Current location: " + [get_my_x()] + ", " + [get_my_y()]);
+	var mywidth = get_my_x();
+	var myheight = get_my_y();
+	console.log("Current location: " + [mywidth] + ", " + [myheight]);
 
    // we found an item! take it!
-   if (board[get_my_x()][get_my_y()] > 0) {
-		console.log("Taking item at: " + [get_my_x()] + ", " + [get_my_y()]);
+   if (board[mywidth][myheight] > 0) {
+		console.log("Taking item at: " + [mywidth] + ", " + [myheight]);
 		return TAKE;
    };
 
 //HEIGHT // (AKA y)
-for (y = 1; y < HEIGHT; y++) { 
+for (HeightY = 1; HeightY <= HEIGHT; HeightY++) { 
 //WIDTH // (AKA x)
-	for (x = 1; x < WIDTH; x++) { 
+	for (WidthX = 1; WidthX <= WIDTH; WidthX++) { 
 	   // Look around us for more items to take.
 		if (
-			[get_my_y() + y] > 0 
-			&& [get_my_y() + y] < HEIGHT
-			&& [get_my_y() - y] > 0 
-			&& [get_my_y() - y] < HEIGHT
-			&& [get_my_x() + x] > 0 
-			&& [get_my_x() + x] < WIDTH
-			&& [get_my_x() - x] > 0 
-			&& [get_my_x() - x] < WIDTH
+			[myheight + HeightY] > 0
+			&& [myheight + HeightY] <= HEIGHT
+			&& [myheight - HeightY] > 0
+			&& [myheight - HeightY] <= HEIGHT
+			&& [mywidth + WidthX] > 0
+			&& [mywidth + WidthX] <= WIDTH
+			&& [mywidth - WidthX] > 0 
+			&& [mywidth - WidthX] <= WIDTH
 		){
 
 		// Direct looking.
-		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y()]);
-			if (board[get_my_x() + x][get_my_y()] > 0) {
-				console.log("Item located direct at " + [get_my_x() + x] + ", " + [get_my_y()] + " - Moving East");
+		console.log("Scanning location: " + [mywidth + WidthX] + ", " + [myheight]);
+			if (board[mywidth + WidthX][myheight] > 0) {
+				console.log("Item located direct at " + [mywidth + WidthX] + ", " + [myheight] + " - Moving East");
 				return EAST;
 		   }; //end if y+y
-		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y()]);
-			if (board[get_my_x() - x][get_my_y()] > 0) { 
-				console.log("Item located direct at " + [get_my_x() - x] + ", " + [get_my_y()] + " - Moving West");
+		console.log("Scanning location: " + [mywidth - WidthX] + ", " + [myheight]);
+			if (board[mywidth - WidthX][myheight] > 0) { 
+				console.log("Item located direct at " + [mywidth - WidthX] + ", " + [myheight] + " - Moving West");
 				return WEST;
-		   }; //end if y- y
-		console.log("Scanning location: " + [get_my_x()] + ", " + [get_my_y() - y]);
-			if (board[get_my_x()][get_my_y() - y] > 0) {
-				console.log("Item located direct at " + [get_my_x()] + ", " + [get_my_y() - y] + " - Moving South");
-				return SOUTH;
-		   }; //end if x+i
-		console.log("Scanning location: " + [get_my_x()] + ", " + [get_my_y() + y]);
-			if (board[get_my_x()][get_my_y() + y] > 0) {
-				console.log("Item located direct at " + [get_my_x()] + ", " + [get_my_y() + y] + " - Moving North");
+		   }; //end if y- HeightY
+		console.log("Scanning location: " + [mywidth] + ", " + [myheight - HeightY]);
+			if (board[mywidth][myheight - HeightY] > 0) {
+				console.log("Item located direct at " + [mywidth] + ", " + [myheight - HeightY] + " - Moving North");
 				return NORTH;
+		   }; //end if x+i
+		console.log("Scanning location: " + [mywidth] + ", " + [myheight + HeightY]);
+			if (board[mywidth][myheight + HeightY] > 0) {
+				console.log("Item located direct at " + [mywidth] + ", " + [myheight + HeightY] + " - Moving South");
+				return SOUTH;
 		   }; //end if x-i
-		   console.log("No fruit along row or column.")
+		} else {
+		   console.log("New X = " + (mywidth + WidthX) + " or " + (mywidth - WidthX) + " (" + WIDTH+ ") or New Y = " + (myheight + HeightY) + " or " + (myheight - HeightY) + " (" + HEIGHT + ") is too big or too small.");
 	   }; //end if multiple
 	}; //end for WIDTH
+   console.log("No fruit along row.");
 }; //end for HEIGHT
-		   
-for (y = 1; y < HEIGHT; y++) { 
-//WIDTH // (AKA x)
-	for (x = 1; x < WIDTH; x++) { 
-	   // Look around us for more items to take.
-		if (
-			[get_my_y() + y] > 0 
-			&& [get_my_y() + y] < HEIGHT
-			&& [get_my_y() - y] > 0 
-			&& [get_my_y() - y] < HEIGHT
-			&& [get_my_x() + x] > 0 
-			&& [get_my_x() + x] < WIDTH
-			&& [get_my_x() - x] > 0 
-			&& [get_my_x() - x] < WIDTH
-		){
-
-		// Diagonal looking.
-		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y()+ y]);
-			if (board[get_my_x() + x][get_my_y() + y] > 0) {
-				console.log("Item located diagonally at " + [get_my_x() + x] + ", " + [get_my_y()+ y] + " - Item Northeast, Moving North");
-				return NORTH;
-		   }; //end if y+y
-		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y() - y]);
-			if (board[get_my_x() - x][get_my_y() - y] > 0) { 
-				console.log("Item located diagonally at " + [get_my_x() - x] + ", " + [get_my_y() - y] + " - Item Southwest, Moving South");
-				return SOUTH;
-		   }; //end if y- y
-		console.log("Scanning location: " + [get_my_x() + x] + ", " + [get_my_y() - y]);
-			if (board[get_my_x() + x][get_my_y() - y] > 0) {
-				console.log("Item located diagonally at " + [get_my_x() + x] + ", " + [get_my_y() - y] + " - Item Southeast, Moving East");
-				return EAST;
-		   }; //end if x+i
-		console.log("Scanning location: " + [get_my_x() - x] + ", " + [get_my_y() + y]);
-			if (board[get_my_x() - x][get_my_y() + y] > 0) {
-				console.log("Item located diagonally at " + [get_my_x() - x] + ", " + [get_my_y() + y] + " - Item Northwest, Moving West");
-				return WEST;
-		   }; //end if x-i
-		console.log("No fruit found diagonally.")
-	   }; //end if multiple
-	}; //end for WIDTH
-}; //end for HEIGHT
-
+console.log("No fruit along column.");
 	
 	//Otherwise, move randomly.
    var rand = (Math.random() * 4);
