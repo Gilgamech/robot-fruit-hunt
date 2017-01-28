@@ -8,55 +8,53 @@ function make_move() {
 	var myheight = get_my_y();
 	console.log("Current location: " + [mywidth] + ", " + [myheight]);
 
+	BoardHeight = (HEIGHT - 1);
+	BoardWidth = (WIDTH - 1);
    // we found an item! take it!
    if (board[mywidth][myheight] > 0) {
 		console.log("Taking item at: " + [mywidth] + ", " + [myheight]);
 		return TAKE;
    };
 
-//HEIGHT // (AKA y)
-for (HeightY = 1; HeightY <= HEIGHT; HeightY++) { 
-//WIDTH // (AKA x)
-	for (WidthX = 1; WidthX <= WIDTH; WidthX++) { 
+//BoardHeight // (AKA y)
+for (HeightY = 1; HeightY <= BoardHeight; HeightY++) { 
+//BoardWidth // (AKA x)
+	for (WidthX = 1; WidthX <= BoardWidth; WidthX++) { 
 	   // Look around us for more items to take.
-		if (
-			[myheight + HeightY] > 0
-			&& [myheight + HeightY] <= HEIGHT
-			&& [myheight - HeightY] > 0
-			&& [myheight - HeightY] <= HEIGHT
-			&& [mywidth + WidthX] > 0
-			&& [mywidth + WidthX] <= WIDTH
-			&& [mywidth - WidthX] > 0 
-			&& [mywidth - WidthX] <= WIDTH
-		){
-
 		// Direct looking.
 		console.log("Scanning location: " + [mywidth + WidthX] + ", " + [myheight]);
+		if ( [mywidth + WidthX] > 0 && [mywidth + WidthX] < BoardWidth ){ 
 			if (board[mywidth + WidthX][myheight] > 0) {
 				console.log("Item located direct at " + [mywidth + WidthX] + ", " + [myheight] + " - Moving East");
 				return EAST;
 		   }; //end if y+y
+		};
 		console.log("Scanning location: " + [mywidth - WidthX] + ", " + [myheight]);
+		if ( [mywidth - WidthX] > 0 && [mywidth - WidthX] < BoardWidth ){ 
 			if (board[mywidth - WidthX][myheight] > 0) { 
 				console.log("Item located direct at " + [mywidth - WidthX] + ", " + [myheight] + " - Moving West");
 				return WEST;
 		   }; //end if y- HeightY
+		};
+	}; //end for BoardWidth
+   console.log("No fruit along row.");
 		console.log("Scanning location: " + [mywidth] + ", " + [myheight - HeightY]);
+		if ( [myheight + HeightY] > 0 && [myheight + HeightY] < BoardHeight ){ 
 			if (board[mywidth][myheight - HeightY] > 0) {
 				console.log("Item located direct at " + [mywidth] + ", " + [myheight - HeightY] + " - Moving North");
 				return NORTH;
 		   }; //end if x+i
+		};
+		if ( [myheight - HeightY] > 0 && [myheight - HeightY] < BoardHeight ){ 
 		console.log("Scanning location: " + [mywidth] + ", " + [myheight + HeightY]);
 			if (board[mywidth][myheight + HeightY] > 0) {
 				console.log("Item located direct at " + [mywidth] + ", " + [myheight + HeightY] + " - Moving South");
 				return SOUTH;
 		   }; //end if x-i
-		} else {
-		   console.log("New X = " + (mywidth + WidthX) + " or " + (mywidth - WidthX) + " (" + WIDTH+ ") or New Y = " + (myheight + HeightY) + " or " + (myheight - HeightY) + " (" + HEIGHT + ") is too big or too small.");
-	   }; //end if multiple
-	}; //end for WIDTH
-   console.log("No fruit along row.");
-}; //end for HEIGHT
+		};
+		  // console.log("New X = " + (mywidth + WidthX) + " or " + (mywidth - WidthX) + " (" + BoardWidth+ ") or New Y = " + (myheight + HeightY) + " or " + (myheight - HeightY) + " (" + BoardHeight + ") is too big or too small.");
+	   //}; //end if multiple
+}; //end for BoardHeight
 console.log("No fruit along column.");
 	
 	//Otherwise, move randomly.
@@ -93,8 +91,8 @@ console.log("No fruit along column.");
 //}
 
 
-// WIDTH = <width of game board>
-// HEIGHT = <height of game board>
+// BoardWidth = <width of game board>
+// BoardHeight = <height of game board>
 
 // Returns the current board.
 // It's an array of arrays, so 
