@@ -8,15 +8,11 @@
 // 1 : 56 : if _returnval <> 0_   return returnval _; // end if returnval
 
 
-//board 267487
 //  # --> X
 //  | 0,0 1,0 2,0
 //  v 0,1 1,1 2,1 
 //  Y 0,2 1,2 2,2
 // 
-function new_game() {
-}
-
 function make_move() {
 	var board = get_board();
 	var TargetX = 0;
@@ -259,9 +255,10 @@ function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 		// trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 		var fruittype = board[TargetX][TargetY];
 		if (fruittype > 0) {
-			//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
 			if (get_my_item_count(fruittype) !== undefined) {
 				if (get_my_item_count(fruittype) < (get_total_item_count(fruittype) /2)) {
+					//If the location has a piece of fruit, and the Width increment (distance there) is higher, 
+					// go sideways, otherwise the Height increment is higher so go vertical.
 					if (WidthX > HeightY) {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + widthdir);
 						return widthdir;
@@ -279,6 +276,8 @@ function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 			
 			
 			
+function new_game() {
+}
 // Optionally include this function if you'd like to always reset to a 
 // certain board number/layout. This is useful for repeatedly testing your
 // bot(s) against known positions.
