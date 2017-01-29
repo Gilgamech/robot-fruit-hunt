@@ -79,7 +79,6 @@ var GamePlay = {
         GamePlay.draw();
     },
     draw: function() {
-		console.log("Function");
         var ctx = GamePlay.canvas.getContext('2d');
         ctx.clearRect(0,0,GamePlay.canvas.width,GamePlay.canvas.height);
         GamePlay.drawItems(ctx, Board.board, Board.history);
