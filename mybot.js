@@ -36,65 +36,100 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			var mwpX = mywidth + WidthX;
 			var mwmX = mywidth - WidthX;
 			
-			if ( mwpX >= 0 && mwpX <= BoardWidth 
-			&& mhpY >= 0 && mhpY <= BoardHeight ){ 
-				trace("Scanning location - mwpX: " + mwpX + ", mhpY: " + mhpY);
-				if (board[mwpX][mhpY] > 0) {
-				//	TargetX = mwpX;
-				//	TargetY = mhpY;
+			TargetX = mwpX;
+			TargetY = mhpY;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - mwpX: " + TargetX + ", mhpY: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) {
+					//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
 					if (WidthX > HeightY) {
-					trace("Item " + board[mwpX][mhpY] + " located at " + mwpX + ", " + mhpY + " - Southeast - Moving East");
+					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Southeast - Moving East");
+						
+						if (get_my_item_count(fruittype) !== undefined) {
+							get_my_item_count(fruittype)
+						}; //end if get_my_item_count
+						
 						return EAST;
 					} else {
-					trace("Item " + board[mwpX][mhpY] + " located at " + mwpX + ", " + mhpY + " - Southeast - Moving South");
+					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Southeast - Moving South");
 						return SOUTH;
-					}; 
-			   }; //end if y+y
-			};
-			if ( mwmX >= 0 && mwmX <= BoardWidth 
-			&& mhpY >= 0 && mhpY <= BoardHeight ){ 
-				trace("Scanning location - mwmX: " + mwmX + ", mhpY: " + mhpY);
-				if (board[mwmX][mhpY] > 0) { 
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
+			
+			TargetX = mwmX;
+			TargetY = mhpY;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - mwmX: " + TargetX + ", mhpY: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
-					trace("Item " + board[mwmX][mhpY] + " located at " + mwmX + ", " + mhpY+ " - Southwest - Moving West");
+					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY+ " - Southwest - Moving West");
 						return WEST;
 					} else {
-					trace("Item " + board[mwmX][mhpY] + " located at " + mwmX + ", " + mhpY+ " - Southwest - Moving South");
+					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY+ " - Southwest - Moving South");
 						return SOUTH;
-					}; 
-			   }; //end if y- HeightY
-			};
-			if ( mwpX >= 0 && mwpX <= BoardWidth 
-			&& mhmY >= 0 && mhmY <= BoardHeight ){ 
-				trace("Scanning location - mwpX: "  + mwpX + ", mhmY: " + mhmY);
-				if (board[mwpX][mhmY] > 0) {
-				//	TargetX = mwpX;
-				//	TargetY = mhpY;
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
+			
+			TargetX = mwpX;
+			TargetY = mhmY;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - mwpX: "  + TargetX + ", mhmY: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
-						trace("Item " + board[mwpX][mhmY] + " located at " + mwpX + ", " + mhmY + " - Northeast - Moving East");
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Northeast - Moving East");
 						return EAST;
 					} else {
-						trace("Item " + board[mwpX][mhmY] + " located at " + mwpX + ", " + mhmY + " - Northeast - Moving North");
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Northeast - Moving North");
 						return NORTH;
-					}; 
-			   }; //end if y+y
-			};
-			if ( mwmX >= 0 && mwmX <= BoardWidth 
-			&& mhmY >= 0 && mhmY <= BoardHeight ){ 
-				trace("Scanning location - mwmX: " + mwmX + ", mhmY: " + mhmY);
-				if (board[mwmX][mhmY] > 0) { 
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if mwmX
+			
+			TargetX = mwmX;
+			TargetY = mhmY;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - mwmX: " + TargetX + ", mhmY: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
-						trace("Item " + board[mwmX][mhmY] + " located at " + mwmX + ", " + mhmY+ " - Northwest - Moving West");
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY+ " - Northwest - Moving West");
 						return WEST;
 					} else {
-						trace("Item " + board[mwmX][mhmY] + " located at " + mwmX + ", " + mhmY+ " - Northwest - Moving North");
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY+ " - Northwest - Moving North");
 						return NORTH;
-					}; 
-			   }; //end if y- HeightY
-			};
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if mwmX
 	}; //end for BoardWidth
 }; //end for BoardHeight
 	
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("                                             ")
+trace("Error: failed to locate fruit!")
+trace("E        f       d t       a      ru  !")
+trace("Error: failed to locate fruit!")
+trace("E        f       d t       a      ru  !")
+trace("Error: f       d t       ate fru  !")
+trace("                                             ")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+trace("Error: failed to locate fruit!")
+
 	//Otherwise, move randomly.
    var rand = (Math.random() * 4);
    if (rand < 1) { 
