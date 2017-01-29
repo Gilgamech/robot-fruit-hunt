@@ -36,10 +36,16 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			var mwpX = mywidth + WidthX;
 			var mwmX = mywidth - WidthX;
 			
-			locate_and_move(mwpX,mhpY,EAST,SOUTH);
-			locate_and_move(mwmX,mhpY,WEST,SOUTH);
-			locate_and_move(mwpX,mhmY,EAST,NORTH);
-			locate_and_move(mwmX,mhmY,WEST,NORTH);
+			movedir =  (
+			locate_and_move(mwpX,mhpY,EAST,SOUTH) + 
+			locate_and_move(mwmX,mhpY,WEST,SOUTH) + 
+			locate_and_move(mwpX,mhmY,EAST,NORTH) + 
+			locate_and_move(mwmX,mhmY,WEST,NORTH)
+			);
+			console.log("Movedir = " + movedir);
+		if (returnval <> 0) 
+			return movedir
+		}; // end if returnval
 	}; //end for BoardWidth
 }; //end for BoardHeight
 	
