@@ -1,13 +1,9 @@
-## Welcome!
+## Welcome to Gilgamech's Juicer
+a Scribd Fruitbot
+written in Javascript
+by Stephenson Empethreez Gilgamech
 
-Modify mybot.js to start writing your bot. Opening game.html will allow you to generate random boards, and either watch your bot play or step through one move at a time. Refer [here](http://fruitbots.org/api/api) for available methods. gl/hf! - Scribd.
+Bot started as RandomBot, and has been heavily modified with fruit finding logic.
 
-ps: you should be able to ignore everything in `assets/`, but if you want to disable the opponent bot from playing in `game.html`, go to `assets/simplebot.js` and find:
-
-```javascript
-makeMove: function() {
-   // to disable to opponent, uncomment the next line
-   // return PASS;
-```
-
-Uncomment `return PASS;` and your bot will be free to roam the board alone.
+Player.js modified to allow automated continuous play, and better visualization in the console. You can watch it run around here:
+http://gilgamech.com/robot-fruit-hunt/Index.html
