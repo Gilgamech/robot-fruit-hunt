@@ -43,20 +43,18 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 		var mhpY = myheight + HeightY;
 		var mhmY = myheight - HeightY;
 	for (WidthX = 0; WidthX <= BoardWidth; WidthX++) { 
-			var mwpX = mywidth + WidthX;
-			var mwmX = mywidth - WidthX;
+		var mwpX = mywidth + WidthX;
+		var mwmX = mywidth - WidthX;
 			
-			movedir =  (
-			locate_and_move(mwpX,mhpY,EAST,SOUTH) + 
-			locate_and_move(mwmX,mhpY,WEST,SOUTH) + 
-			locate_and_move(mwpX,mhmY,EAST,NORTH) + 
-			locate_and_move(mwmX,mhmY,WEST,NORTH)
-			);
-			console.log("Movedir = " + movedir);
-		if (returnval <> 0) 
-			return movedir
-		}; // end if returnval
-	}; //end for BoardWidth
+		movedir =  (
+		locate_and_move(mwpX,mhpY,EAST,SOUTH) + 
+		locate_and_move(mwmX,mhpY,WEST,SOUTH) + 
+		locate_and_move(mwpX,mhmY,EAST,NORTH) + 
+		locate_and_move(mwmX,mhmY,WEST,NORTH)
+		);
+		console.log("Movedir = " + movedir);
+
+		}; //end for BoardWidth
 }; //end for BoardHeight
 	
 trace("Error: failed to locate fruit!")
