@@ -175,7 +175,7 @@ trace("Error: failed to locate fruit!")
 	return PASS;
 } //end make_move 
 
-function locate_and_move(TargetX,TargetY,widthdir,heightdir) {
+function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
 	// Outputs the correct direction number to get you closer to fruit. 
 	// (A fruit, but sometimes not the closest, need to work on that.)
@@ -197,6 +197,11 @@ function locate_and_move(TargetX,TargetY,widthdir,heightdir) {
 				}; //end if get_my_item_count
 
 				trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						
+						if (get_my_item_count(fruittype) !== undefined) {
+							get_my_item_count(fruittype)
+						}; //end if get_my_item_count
+						
 				return widthdir;
 			} else {
 				trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
@@ -205,7 +210,34 @@ function locate_and_move(TargetX,TargetY,widthdir,heightdir) {
 	   }; //end if fruittype
 	}; // end if TargetX
 
-}; //end locate_and_move
+}; //end locate_best_fruit
+
+function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
+	if ( TargetX >= 0 && TargetX <= BoardWidth 
+	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+		trace("Scanning X: " + TargetX + ", Y: " + TargetY);
+		var fruittype = board[TargetX][TargetY];
+		if (fruittype > 0) {
+			//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
+			if (get_my_item_count(fruittype) !== undefined) {
+				if (get_my_item_count(fruittype) < (get_total_item_count(fruittype) /2)) {
+					if (WidthX > HeightY) {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						return widthdir;
+					} else {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
+						return heightdir;
+					}; //end if WidthX
+				} else {
+				}; //end if get_my_item_count
+			}; //end if get_my_item_count
+	   }; //end if fruittype
+	}; // end if TargetX
+}; //end route_to_fruit
+
+			
+			
+			
 // Optionally include this function if you'd like to always reset to a 
 // certain board number/layout. This is useful for repeatedly testing your
 // bot(s) against known positions.
