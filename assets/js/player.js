@@ -38,7 +38,7 @@ var GamePlay = {
         GamePlay.itemImages[itemImageUrls.length - 1].onload = function(){
             GamePlay.setupNewGame();
         };
-
+               GamePlay.mode = "play";
     },
     setupNewGame: function(boardNumber) {
         // Create a new board setup according to the following priority:
@@ -75,10 +75,11 @@ var GamePlay = {
         GamePlay.start();
     },
     start: function() {
-        GamePlay.mode = "pause";
+        GamePlay.mode = "play";
         GamePlay.draw();
     },
     draw: function() {
+		console.log("Function");
         var ctx = GamePlay.canvas.getContext('2d');
         ctx.clearRect(0,0,GamePlay.canvas.width,GamePlay.canvas.height);
         GamePlay.drawItems(ctx, Board.board, Board.history);
@@ -88,28 +89,24 @@ var GamePlay = {
         if (GamePlay.mode == "play") {
            var score = Board.checkGameOver();
            if (score !== undefined) {
+			   ctx.font = "30px Arial";
+			   ctx.fillStyle = "#000";
                if (score > 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You win!", 0, 275);
-               }
+				   console.log("You win!");
+               } //end if score
                if (score < 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You lose!", 0, 275);
-               }
+				   console.log("You lose!");
+               } //end if score
                if (score == 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You tie!", 0, 275);
-               }
-               GamePlay.mode = "pause";
+				   console.log("You tie!");
+               } //end if score
+			   GamePlay.init();
                return;
-           }
+		   } //end if score
            Board.processMove();
            setTimeout(function() {GamePlay.draw();}, 500);
         } else {
-           GamePlay.mode = "pause";
+           GamePlay.mode = "play";
         }
     },
     displayScore: function(ctx, state) {
