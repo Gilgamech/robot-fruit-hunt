@@ -23,6 +23,8 @@ function make_move() {
 	var TargetY = 0;
 	var mywidth = get_my_x();
 	var myheight = get_my_y();
+	var widthdir = WEST;
+	var heightdir = NORTH;
 	var BoardHeight = (HEIGHT - 1);
 	var BoardWidth = (WIDTH - 1);
 
@@ -46,17 +48,87 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 		var mwpX = mywidth + WidthX;
 		var mwmX = mywidth - WidthX;
 			
-		movedir =  (
-		locate_and_move(mwpX,mhpY,EAST,SOUTH) + 
-		locate_and_move(mwmX,mhpY,WEST,SOUTH) + 
-		locate_and_move(mwpX,mhmY,EAST,NORTH) + 
-		locate_and_move(mwmX,mhmY,WEST,NORTH)
-		);
-		console.log("Movedir = " + movedir);
-
-		if (returnval !== 0) {
-			return returnval;
-		}; // end if returnval
+			TargetX = mwpX;
+			TargetY = mhpY;
+			widthdir = EAST;
+			heightdir = SOUTH;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) {
+					//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
+					if (WidthX > HeightY) {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						
+						if (get_my_item_count(fruittype) !== undefined) {
+							get_my_item_count(fruittype)
+						}; //end if get_my_item_count
+						
+						return widthdir;
+					} else {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
+						return heightdir;
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
+			
+			TargetX = mwmX;
+			TargetY = mhpY;
+			widthdir = WEST;
+			heightdir = SOUTH;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
+					if (WidthX > HeightY) {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						return widthdir;
+					} else {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
+						return heightdir;
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
+			
+			TargetX = mwpX;
+			TargetY = mhmY;
+			widthdir = EAST;
+			heightdir = NORTH;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - X: "  + TargetX + ", Y: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
+					if (WidthX > HeightY) {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						return widthdir;
+					} else {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
+						return heightdir;
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
+			
+			TargetX = mwmX;
+			TargetY = mhmY;
+			widthdir = WEST;
+			heightdir = NORTH;
+			if ( TargetX >= 0 && TargetX <= BoardWidth 
+			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
+				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				var fruittype = board[TargetX][TargetY];
+				if (fruittype > 0) { 
+					if (WidthX > HeightY) {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
+						return widthdir;
+					} else {
+						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
+						return heightdir;
+					}; //end if WidthX
+			   }; //end if fruittype
+			}; // end if TargetX
 	}; //end for BoardWidth
 }; //end for BoardHeight
 	
@@ -133,8 +205,7 @@ function locate_and_move(TargetX,TargetY,widthdir,heightdir) {
 	   }; //end if fruittype
 	}; // end if TargetX
 
-} //end locate_and_move
-
+}; //end locate_and_move
 // Optionally include this function if you'd like to always reset to a 
 // certain board number/layout. This is useful for repeatedly testing your
 // bot(s) against known positions.
