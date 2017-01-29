@@ -87,6 +87,9 @@ trace("Error: failed to locate fruit!")
 } //end make_move 
 
 function locate_and_move(TargetX,TargetY,widthdir,heightdir) {
+	// Takes the search target X and target Y, the width direction number and height direction number. 
+	// Outputs the correct direction number to get you closer to fruit. 
+	// (A fruit, but sometimes not the closest, need to work on that.)
 	var board = get_board();
 	var widthdir = WEST;
 	var heightdir = NORTH;
