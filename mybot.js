@@ -54,21 +54,26 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = SOUTH;
 			if ( TargetX >= 0 && TargetX <= BoardWidth 
 			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 				var fruittype = board[TargetX][TargetY];
 				if (fruittype > 0) {
 					//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
 					if (WidthX > HeightY) {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
-						
-						if (get_my_item_count(fruittype) !== undefined) {
-							get_my_item_count(fruittype)
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return widthdir;
+						} else {
+							trace("Skipping item " + fruittype);
 						}; //end if get_my_item_count
-						
-						return widthdir;
 					} else {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
-						return heightdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return heightdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					}; //end if WidthX
 			   }; //end if fruittype
 			}; // end if TargetX
@@ -79,15 +84,25 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = SOUTH;
 			if ( TargetX >= 0 && TargetX <= BoardWidth 
 			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 				var fruittype = board[TargetX][TargetY];
 				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
-						return widthdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return widthdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					} else {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
-						return heightdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return heightdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					}; //end if WidthX
 			   }; //end if fruittype
 			}; // end if TargetX
@@ -98,15 +113,25 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = NORTH;
 			if ( TargetX >= 0 && TargetX <= BoardWidth 
 			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-				trace("Scanning location - X: "  + TargetX + ", Y: " + TargetY);
+				trace("Scanning X: "  + TargetX + ", Y: " + TargetY);
 				var fruittype = board[TargetX][TargetY];
 				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
-						return widthdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return widthdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					} else {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
-						return heightdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return heightdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					}; //end if WidthX
 			   }; //end if fruittype
 			}; // end if TargetX
@@ -117,15 +142,25 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = NORTH;
 			if ( TargetX >= 0 && TargetX <= BoardWidth 
 			&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-				trace("Scanning location - X: " + TargetX + ", Y: " + TargetY);
+				trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 				var fruittype = board[TargetX][TargetY];
 				if (fruittype > 0) { 
 					if (WidthX > HeightY) {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " - Moving " + widthdir);
-						return widthdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return widthdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					} else {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - " +heightdir + "" + widthdir + " Moving " + heightdir);
-						return heightdir;
+						if ((get_my_item_count(fruittype) - 1) < (get_total_item_count(fruittype) /2)
+							&& (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
+							return heightdir;
+						} else {
+							trace("Skipping item " + fruittype);
+						}; //end if get_my_item_count
 					}; //end if WidthX
 			   }; //end if fruittype
 			}; // end if TargetX
