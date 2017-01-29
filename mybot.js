@@ -1,11 +1,11 @@
-# C:\Dropbox\repos\www\robot-fruit-hunt\mybot.js Build: 1 2017-01-29T11:39:45     
+// C:\Dropbox\repos\www\robot-fruit-hunt\mybot.js Build: 1 2017-01-29T11:39:45     
 
 
 
 
 
 
-# 1 : 56 : if _returnval <> 0_   return returnval _; // end if returnval
+// 1 : 56 : if _returnval <> 0_   return returnval _; // end if returnval
 
 
 //board 267487
@@ -54,8 +54,8 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 		);
 		console.log("Movedir = " + movedir);
 
-		if (returnval <> 0) 
-			return returnval
+		if (returnval !== 0) {
+			return returnval;
 		}; // end if returnval
 	}; //end for BoardWidth
 }; //end for BoardHeight
