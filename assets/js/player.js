@@ -38,7 +38,7 @@ var GamePlay = {
         GamePlay.itemImages[itemImageUrls.length - 1].onload = function(){
             GamePlay.setupNewGame();
         };
-               GamePlay.mode = "play";
+
     },
     setupNewGame: function(boardNumber) {
         // Create a new board setup according to the following priority:
@@ -75,7 +75,7 @@ var GamePlay = {
         GamePlay.start();
     },
     start: function() {
-        GamePlay.mode = "play";
+        GamePlay.mode = "pause";
         GamePlay.draw();
     },
     draw: function() {
@@ -88,68 +88,28 @@ var GamePlay = {
         if (GamePlay.mode == "play") {
            var score = Board.checkGameOver();
            if (score !== undefined) {
-			   ctx.font = "30px Arial";
-			   ctx.fillStyle = "#000";
                if (score > 0) {
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-				   console.log("You win!");
-               } //end if score
+                   ctx.font = "30px Arial";
+                   ctx.fillStyle = "#000";
+                   ctx.fillText("You win!", 0, 275);
+               }
                if (score < 0) {
-				   console.log("You lose!");
-               } //end if score
+                   ctx.font = "30px Arial";
+                   ctx.fillStyle = "#000";
+                   ctx.fillText("You lose!", 0, 275);
+               }
                if (score == 0) {
-				   console.log("You tie!");
-               } //end if score
-			   GamePlay.init();
+                   ctx.font = "30px Arial";
+                   ctx.fillStyle = "#000";
+                   ctx.fillText("You tie!", 0, 275);
+               }
+               GamePlay.mode = "pause";
                return;
-		   } //end if score
+           }
            Board.processMove();
            setTimeout(function() {GamePlay.draw();}, 500);
         } else {
-           GamePlay.mode = "play";
+           GamePlay.mode = "pause";
         }
     },
     displayScore: function(ctx, state) {
