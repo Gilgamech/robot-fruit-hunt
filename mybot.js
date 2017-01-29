@@ -3,81 +3,93 @@ function new_game() {
 }
 
 function make_move() {
-   var board = get_board();
+	var board = get_board();
+	var TargetX = 0;
+	var TargetY = 0;
 	var mywidth = get_my_x();
 	var myheight = get_my_y();
-	console.log("Current location: " + [mywidth] + ", " + [myheight]);
+	trace("Current location: " + [mywidth] + ", " + [myheight]);
 
 	BoardHeight = (HEIGHT - 1);
 	BoardWidth = (WIDTH - 1);
    // we found an item! take it!
    if (board[mywidth][myheight] > 0) {
-		console.log("Taking item at: " + [mywidth] + ", " + [myheight]);
+		trace("Taking item at: " + [mywidth] + ", " + [myheight]);
 		return TAKE;
    };
 
 //BoardHeight // (AKA y)
-for (HeightY = 1; HeightY <= BoardHeight; HeightY++) { 
 //BoardWidth // (AKA x)
-	for (WidthX = 1; WidthX <= BoardWidth; WidthX++) { 
+for (WidthX = 1; WidthX <= BoardWidth; WidthX++) { 
 	   // Look around us for more items to take.
 		// Direct looking.
-		console.log("Scanning location: " + [mywidth + WidthX] + ", " + [myheight]);
-		if ( [mywidth + WidthX] > 0 && [mywidth + WidthX] < BoardWidth ){ 
-			if (board[mywidth + WidthX][myheight] > 0) {
-				console.log("Item located direct at " + [mywidth + WidthX] + ", " + [myheight] + " - Moving East");
+		var mwpX = mywidth + WidthX;
+		var mwmX = mywidth - WidthX;
+		if ( mwpX > 0 && mwpX < BoardWidth ){ 
+			trace("Scanning mwpX location: " + mwpX + ", " + myheight);
+			if (board[mwpX][myheight] > 0) {
+				trace("Item " + board[mwpX][myheight] + " located at " + mwpX + ", " + myheight + " - Moving East");
+				TargetX = mwpX;
+				TargetY = myheight;
 				return EAST;
 		   }; //end if y+y
 		};
-		console.log("Scanning location: " + [mywidth - WidthX] + ", " + [myheight]);
-		if ( [mywidth - WidthX] > 0 && [mywidth - WidthX] < BoardWidth ){ 
-			if (board[mywidth - WidthX][myheight] > 0) { 
-				console.log("Item located direct at " + [mywidth - WidthX] + ", " + [myheight] + " - Moving West");
+		if ( mwmX > 0 && mwmX < BoardWidth ){ 
+			trace("Scanning mwmX location: " + mwmX + ", " + myheight);
+			if (board[mwmX][myheight] > 0) { 
+				trace("Item " + board[mwmX][myheight] + " located at " + mwmX + ", " + myheight+ " - Moving West");
+				TargetX = mwmX;
+				TargetY = myheight;
 				return WEST;
 		   }; //end if y- HeightY
 		};
-	}; //end for BoardWidth
-   console.log("No fruit along row.");
-		console.log("Scanning location: " + [mywidth] + ", " + [myheight - HeightY]);
-		if ( [myheight + HeightY] > 0 && [myheight + HeightY] < BoardHeight ){ 
-			if (board[mywidth][myheight - HeightY] > 0) {
-				console.log("Item located direct at " + [mywidth] + ", " + [myheight - HeightY] + " - Moving North");
+}; //end for BoardWidth
+trace("No fruit along row " + myheight);
+for (HeightY = 1; HeightY <= BoardHeight; HeightY++) { 
+		var mwpY = myheight + HeightY;
+		var mwmY = myheight - HeightY;
+		if ( mwmY > 0 && mwmY < BoardHeight ){ 
+			trace("Scanning mwmY location: " + mywidth + ", " + mwmY);
+			if (board[mywidth][mwmY] > 0) {
+				trace("Item " + board[mywidth][mwmY] + " located at " + mywidth + ", " + mwmY + " - Moving North");
+				TargetX = mywidth;
+				TargetY = mwmY;
 				return NORTH;
 		   }; //end if x+i
 		};
-		if ( [myheight - HeightY] > 0 && [myheight - HeightY] < BoardHeight ){ 
-		console.log("Scanning location: " + [mywidth] + ", " + [myheight + HeightY]);
-			if (board[mywidth][myheight + HeightY] > 0) {
-				console.log("Item located direct at " + [mywidth] + ", " + [myheight + HeightY] + " - Moving South");
+		if ( mwpY > 0 && mwpY < BoardHeight ){ 
+			trace("Scanning mwpY location: " + mywidth + ", " + mwpY);
+			if (board[mywidth][mwpY] > 0) {
+				trace("Item " + board[mywidth][mwpY] + " located at " + mywidth + ", " + mwpY + " - Moving South");
+				TargetX = mywidth;
+				TargetY = mwpY;
 				return SOUTH;
 		   }; //end if x-i
 		};
-		  // console.log("New X = " + (mywidth + WidthX) + " or " + (mywidth - WidthX) + " (" + BoardWidth+ ") or New Y = " + (myheight + HeightY) + " or " + (myheight - HeightY) + " (" + BoardHeight + ") is too big or too small.");
-	   //}; //end if multiple
 }; //end for BoardHeight
-console.log("No fruit along column.");
+ trace("No fruit along column " + mywidth);
 	
 	//Otherwise, move randomly.
    var rand = (Math.random() * 4);
    if (rand < 1) { 
-		console.log("Rand North");
+		trace("Rand North");
 	   return NORTH;
    }; //end if rand 
    if (rand < 2) {
-		console.log("Rand South");
+		trace("Rand South");
 	   return SOUTH;
    }; //end if rand 
 	if (rand < 3) { 
-		console.log("Rand East");
+		trace("Rand East");
 	   return EAST;
    }; //end if rand 
 	if (rand < 4) {
-		console.log("Rand West");
+		trace("Rand West");
 		return WEST;
    }; //end if rand 
 
-	console.log("Default");
-	console.log(rand);
+	trace("Default");
+	trace(rand);
 
 	return PASS;
 } //end make_move 
@@ -146,7 +158,7 @@ console.log("No fruit along column.");
 // Notice: Unlike in browsers, this function only works for strings.  
 // (Note that strings longer than 1024 characters won't be displayed,
 //  also the total limit of log output you can generate is 16k)
-// function trace(string)
+// trace(string)
 
 // Implement this function, and return either
 // NORTH, EAST, SOUTH, WEST, or TAKE.
