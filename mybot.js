@@ -20,52 +20,73 @@ function make_move() {
 
 //BoardHeight // (AKA y)
 //BoardWidth // (AKA x)
-for (WidthX = 1; WidthX <= BoardWidth; WidthX++) { 
-	   // Look around us for more items to take.
-		// Direct looking.
-		var mwpX = mywidth + WidthX;
-		var mwmX = mywidth - WidthX;
-		if ( mwpX > 0 && mwpX < BoardWidth ){ 
-			trace("Scanning mwpX location: " + mwpX + ", " + myheight);
-			if (board[mwpX][myheight] > 0) {
-				trace("Item " + board[mwpX][myheight] + " located at " + mwpX + ", " + myheight + " - Moving East");
-				TargetX = mwpX;
-				TargetY = myheight;
-				return EAST;
-		   }; //end if y+y
-		};
-		if ( mwmX > 0 && mwmX < BoardWidth ){ 
-			trace("Scanning mwmX location: " + mwmX + ", " + myheight);
-			if (board[mwmX][myheight] > 0) { 
-				trace("Item " + board[mwmX][myheight] + " located at " + mwmX + ", " + myheight+ " - Moving West");
-				TargetX = mwmX;
-				TargetY = myheight;
-				return WEST;
-		   }; //end if y- HeightY
-		};
-}; //end for BoardWidth
-trace("No fruit along row " + myheight);
-for (HeightY = 1; HeightY <= BoardHeight; HeightY++) { 
+// Look around us for more items to take.
+// Direct looking.
+for (HeightY = 0; HeightY <= BoardHeight; HeightY++) { 
 		var mwpY = myheight + HeightY;
 		var mwmY = myheight - HeightY;
-		if ( mwmY > 0 && mwmY < BoardHeight ){ 
-			trace("Scanning mwmY location: " + mywidth + ", " + mwmY);
-			if (board[mywidth][mwmY] > 0) {
-				trace("Item " + board[mywidth][mwmY] + " located at " + mywidth + ", " + mwmY + " - Moving North");
-				TargetX = mywidth;
-				TargetY = mwmY;
-				return NORTH;
-		   }; //end if x+i
-		};
-		if ( mwpY > 0 && mwpY < BoardHeight ){ 
-			trace("Scanning mwpY location: " + mywidth + ", " + mwpY);
-			if (board[mywidth][mwpY] > 0) {
-				trace("Item " + board[mywidth][mwpY] + " located at " + mywidth + ", " + mwpY + " - Moving South");
-				TargetX = mywidth;
-				TargetY = mwpY;
-				return SOUTH;
-		   }; //end if x-i
-		};
+	for (WidthX = 0; WidthX <= BoardWidth; WidthX++) { 
+			var mwpX = mywidth + WidthX;
+			var mwmX = mywidth - WidthX;
+			
+			if ( mwpX > 0 && mwpX < BoardWidth 
+			&& mwpY > 0 && mwpY < BoardHeight ){ 
+				trace("Scanning location - mwpX: " + mwpX + ", mwpY: " + mwpY);
+				if (board[mwpX][mwpY] > 0) {
+				//	TargetX = mwpX;
+				//	TargetY = mwpY;
+					if (WidthX > HeightY) {
+					trace("Item " + board[mwpX][mwpY] + " located at " + mwpX + ", " + mwpY + " - Northeast - Moving East");
+						return EAST;
+					} else {
+					trace("Item " + board[mwpX][mwpY] + " located at " + mwpX + ", " + mwpY + " - Northeast - Moving North");
+						return NORTH;
+					}; 
+			   }; //end if y+y
+			};
+			if ( mwmX > 0 && mwmX < BoardWidth 
+			&& mwpY > 0 && mwpY < BoardHeight ){ 
+				trace("Scanning location - mwmX: " + mwmX + ", mwpY: " + mwpY);
+				if (board[mwmX][mwpY] > 0) { 
+					if (WidthX > HeightY) {
+					trace("Item " + board[mwmX][mwpY] + " located at " + mwmX + ", " + mwpY+ " - Northwest - Moving West");
+						return WEST;
+					} else {
+					trace("Item " + board[mwmX][mwpY] + " located at " + mwmX + ", " + mwpY+ " - Northwest - Moving North");
+						return NORTH;
+					}; 
+			   }; //end if y- HeightY
+			};
+			if ( mwpX > 0 && mwpX < BoardWidth 
+			&& mwmY > 0 && mwmY < BoardHeight ){ 
+				trace("Scanning location - mwpX: "  + mwpX + ", mwmY: " + mwmY);
+				if (board[mwpX][mwmY] > 0) {
+				//	TargetX = mwpX;
+				//	TargetY = mwpY;
+					if (WidthX > HeightY) {
+						trace("Item " + board[mwpX][mwmY] + " located at " + mwpX + ", " + mwmY + " - Southeast - Moving East");
+						return EAST;
+					} else {
+						trace("Item " + board[mwpX][mwmY] + " located at " + mwpX + ", " + mwmY + " - Southeast - Moving South");
+						return SOUTH;
+					}; 
+			   }; //end if y+y
+			};
+			if ( mwmX > 0 && mwmX < BoardWidth 
+			&& mwmY > 0 && mwmY < BoardHeight ){ 
+				trace("Scanning location - mwmX: " + mwmX + ", mwmY: " + mwmY);
+				if (board[mwmX][mwmY] > 0) { 
+					if (WidthX > HeightY) {
+						trace("Item " + board[mwmX][mwmY] + " located at " + mwmX + ", " + mwmY+ " - Southwest - Moving West");
+						return WEST;
+					} else {
+						trace("Item " + board[mwmX][mwmY] + " located at " + mwmX + ", " + mwmY+ " - Southwest - Moving South");
+						return SOUTH;
+					}; 
+			   }; //end if y- HeightY
+			};
+	}; //end for BoardWidth
+trace("No fruit along row " + myheight);
 }; //end for BoardHeight
  trace("No fruit along column " + mywidth);
 	
