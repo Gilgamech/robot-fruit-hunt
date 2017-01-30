@@ -27,7 +27,7 @@ function make_move() {
 	var fruittypehere = board[mywidth][myheight];
 
 	trace("Current location: " + mywidth + ", " + myheight);
-	trace("Board size: " + BoardWidth + ", " + BoardHeight);
+	trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
 
    // we found an item! take it!
 	if (fruittypehere > 0) {
@@ -112,6 +112,7 @@ trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
+//Waiting for the opponent to win.
 
 	//Otherwise, move randomly.
 if (movedir == 0) {
@@ -146,28 +147,56 @@ if (movedir == 0) {
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if (fruittype == 1) {
+	// One apple per map. (1)
 		return true 
 	}; //end if fruittype
+	if (fruittype == 2) {
+		// Three bananas per map. (2) 
+		//return true 
+	}; //end if fruittype
+	if (fruittype == 3) {
+		// Five melons per map. (3)
+		//return true 
+	}; //end if fruittype
+/* 
+ */
+/* 
+var board = get_board();
+var BoardHeight = (HEIGHT - 1);
+var BoardWidth = (WIDTH - 1);
+for (TargetY = 0; TargetY <= 2; TargetY++) { 
+		var mhpY = myheight + HeightY;
+		var mhmY = myheight - HeightY;
+	for (TargetX = 0; TargetX <= HeightY; TargetX++) { 
+		var mwpX = mywidth + WidthX;
+		var mwmX = mywidth - WidthX;
 
-	//No if:
-	//Picking up the piece of fruit won't help me win.
-	//Picking up the piece of fruit won't help opponent lose.
-	//It's much farther away than other fruits that I also want.
+	if ( mwmX >= 0 && mwpX <= BoardWidth 
+	&& mhmY >= 0 && mhpY <= BoardHeight ){ 
+		var fruittype2 = board[mwpX][mhpY];
+		var fruittype3 = board[mwmX][mhpY];
+		var fruittype4 = board[mwpX][mhmY];
+		var fruittype5 = board[mwmX][mhmY];
+		if (fruittype > Math.max(fruittype2,fruittype3,fruittype4,fruittype5)) {
+			trace("Better fruit found " + TargetX + ", " + TargetY + " cells away.");
+			return false 
+		}; //end if fruittype
+	}; //end if TargetX
+	}; //end if TargetX
+	}; //end if TargetX 
+*/
+
+/* No if:
+	Picking up the piece of fruit won't help me win.
+	Picking up the piece of fruit won't help opponent lose.
+	It's much farther away than other fruits that I also want.
 	
-	//Yes if:
-	//I have fewer than half of that fruit, and so does my opponent, 
-	//because then more than half of that fruit remains.
-	//I have exactly half of that fruit, because I want more than half to win.
-	//My opponent does not have half, but there's enough on the board to let him get half.
-	//One apple per map. (1)
-	//Three bananas per map. (2) 
-	//Five cherries per map. (3)
-	//Many (8?) melons per map. (4)
-	//Many (10?) oranges per map. (5)
-	if ((get_my_item_count(fruittype)) < (get_total_item_count(fruittype) /2)
-	|| (get_opponent_item_count(fruittype)) < (get_total_item_count(fruittype) /2)) {
-		return true 
-	} else {
+	Yes if:
+	I have fewer than half of that fruit, and so does my opponent, 
+	because then more than half of that fruit remains.
+	I have exactly half of that fruit, because I want more than half to win.
+	My opponent does not have half, but there's enough on the board to let him get half.
+ */	
 		return false 
 	}; //end if get_my_item_count
 
@@ -182,12 +211,10 @@ function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
 	var BoardHeight = (HEIGHT - 1);
 	var BoardWidth = (WIDTH - 1);
 	var b2 = ["none","east","north","west","south"];
-	//To increase widthdir X, move east=3, to decrease, move west=4. 
-	//To increase heightdir Y, move north=1, to decrease, move south=2.
 	
 	if ( TargetX >= 0 && TargetX <= BoardWidth 
 	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-		// trace("Scanning X: " + TargetX + ", Y: " + TargetY);
+		 trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 		var fruittype = board[TargetX][TargetY];
 		if (fruittype > 0) {
 			//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
@@ -241,6 +268,12 @@ function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 			
 			
 function new_game() {
+trace("New Game!");
+trace("New Game!");
+trace("New Game!");
+trace("New Game!");
+trace("New Game!");
+trace("New Game!");
 }
 // Optionally include this function if you'd like to always reset to a 
 // certain board number/layout. This is useful for repeatedly testing your
