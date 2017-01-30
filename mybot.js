@@ -146,6 +146,19 @@ if (movedir == 0) {
 //To increase Y, move north=1, to decrease, move south=2. 
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
+	// If this fruit type has the most on the board, 
+	// only pick it up 
+	// if there aren't any other types left on the board.
+	/*
+	max_total_item_count = Math.max(get_total_item_count(1),get_total_item_count(2),get_total_item_count(3),get_total_item_count(4),get_total_item_count(5));
+	if (get_total_item_count(fruittype) = max_total_item_count) {
+		var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
+		//Is this the last type of fruit left on the board?
+		if (min_fruit_type_still_on_board !== fruittype) {
+			return false 
+		}; //end if fruittype
+	}
+	*/
 	if (fruittype == 1) {
 	// One apple per map. (1)
 		return true 
@@ -161,29 +174,30 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if (fruittype == 4) {
 		// Seven cherries per map. (4)
 		if (get_number_of_item_types() == fruittype) {
-			var max_of_array = Math.max.apply(Math , get_board());
-			if (max_of_array == fruittype) {
-				return true
+			var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
+			//Is this the last type of fruit left on the board?
+			if (min_fruit_type_still_on_board !== fruittype) {
+				return false 
 			}; //end if fruittype
-			return false 
+			// return true
 		}; //end if get_number_of_item_types
 	}; //end if fruittype
 	if (fruittype == 5) {
 	// Nine oranges per map. (5)
 		if (get_number_of_item_types() == fruittype) {
-			var max_of_array = Math.max.apply(Math , get_board());
-			if (max_of_array == fruittype) {
-				return true
+			var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
+			if (min_fruit_type_still_on_board !== fruittype) {
+				return false 
 			}; //end if fruittype
-			return false 
+			// return true
 		}; //end if get_number_of_item_types
 	}; //end if fruittype
 	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
-	} else {
-		return true 
+	//} else {
+		//return true 
 	}; //end if get_my_item_count
 	return true 
 }; //end do_i_want_this
@@ -201,14 +215,14 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	
 	if ( TargetX >= 0 && TargetX <= BoardWidth 
 	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-		 trace("Scanning X: " + TargetX + ", Y: " + TargetY);
+		 //trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 		var fruittype = board[TargetX][TargetY];
 		if (fruittype > 0) {
 			//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
 			if (do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) == true) {
 					var WidthX = Math.abs(mywidth - TargetX); 
 					var HeightY = Math.abs(myheight - TargetY);
-					trace("Distance X: " + WidthX + ", Y: " + HeightY);
+					//trace("Distance X: " + WidthX + ", Y: " + HeightY);
 				if (WidthX < HeightY) {
 					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + b2[heightdir]);
 					return heightdir;
