@@ -75,7 +75,8 @@ var GamePlay = {
         GamePlay.start();
     },
     start: function() {
-        GamePlay.mode = "pause";
+        GamePlay.mode = "play";
+        // GamePlay.mode = "pause";
         GamePlay.draw();
     },
     draw: function() {
