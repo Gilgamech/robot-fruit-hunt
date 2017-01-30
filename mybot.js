@@ -42,7 +42,6 @@ function make_move() {
 //BoardHeight // (AKA y)
 //BoardWidth // (AKA x)
 // Look around us for more items to take.
-// Direct looking.
 // for (Incrementor = 0; Incrementor <= Math.max(BoardHeight,BoardWidth); Incrementor++) { 
 for (HeightY = 0; HeightY <= BoardHeight; HeightY++) { 
 // for (HeightY = 0; HeightY <= Math.max(BoardHeight,BoardWidth); HeightY++) { 
@@ -63,7 +62,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			widthdir = EAST;
 			heightdir = SOUTH;
 			if (movedir == 0) {
-				movedir = (locate_best_fruit(TargetX,TargetY,widthdir,heightdir));
+				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
 		   }; //end if rand 
 				// console.log("movedir1: " + movedir);
 				// trace("Returning " + movedir);
@@ -74,7 +73,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			widthdir = WEST;
 			heightdir = SOUTH;
 			if (movedir == 0) {
-				movedir = (locate_best_fruit(TargetX,TargetY,widthdir,heightdir));
+				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
 		   }; //end if rand 
 				// console.log("movedir2: " + movedir);
 				// trace("Returning " + movedir);
@@ -84,7 +83,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			widthdir = EAST;
 			heightdir = NORTH;
 			if (movedir == 0) {
-				movedir = (locate_best_fruit(TargetX,TargetY,widthdir,heightdir));
+				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
 		   }; //end if rand 
 				// console.log("movedir3: " + movedir);
 				// trace("Returning " + movedir);
@@ -94,7 +93,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			widthdir = WEST;
 			heightdir = NORTH;
 			if (movedir == 0) {
-				movedir = (locate_best_fruit(TargetX,TargetY,widthdir,heightdir));
+				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
 		   }; //end if rand 
 				// console.log("movedir4: " + movedir);
 				// trace("Returning " + movedir);
@@ -180,45 +179,6 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		}; //end if get_number_of_item_types
 	}; //end if fruittype
 	
-/* 
- */
-/* 
-var board = get_board();
-var BoardHeight = (HEIGHT - 1);
-var BoardWidth = (WIDTH - 1);
-for (TargetY = 0; TargetY <= 2; TargetY++) { 
-		var mhpY = myheight + HeightY;
-		var mhmY = myheight - HeightY;
-	for (TargetX = 0; TargetX <= HeightY; TargetX++) { 
-		var mwpX = mywidth + WidthX;
-		var mwmX = mywidth - WidthX;
-
-	if ( mwmX >= 0 && mwpX <= BoardWidth 
-	&& mhmY >= 0 && mhpY <= BoardHeight ){ 
-		var fruittype2 = board[mwpX][mhpY];
-		var fruittype3 = board[mwmX][mhpY];
-		var fruittype4 = board[mwpX][mhmY];
-		var fruittype5 = board[mwmX][mhmY];
-		if (fruittype > Math.max(fruittype2,fruittype3,fruittype4,fruittype5)) {
-			trace("Better fruit found " + TargetX + ", " + TargetY + " cells away.");
-			return false 
-		}; //end if fruittype
-	}; //end if TargetX
-	}; //end if TargetX
-	}; //end if TargetX 
-*/
-
-/* No if:
-	Picking up the piece of fruit won't help me win.
-	Picking up the piece of fruit won't help opponent lose.
-	It's much farther away than other fruits that I also want.
-	
-	Yes if:
-	I have fewer than half of that fruit, and so does my opponent, 
-	because then more than half of that fruit remains.
-	I have exactly half of that fruit, because I want more than half to win.
-	My opponent does not have half, but there's enough on the board to let him get half.
- */	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
@@ -228,7 +188,7 @@ for (TargetY = 0; TargetY <= 2; TargetY++) {
 	return true 
 }; //end do_i_want_this
 
-function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
+function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
 	// Outputs the correct direction number to get you closer to fruit. 
 	// (A fruit, but sometimes not the closest, need to work on that.)
@@ -262,9 +222,50 @@ function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
 	}; // end if TargetX
 
 return 0
-}; //end locate_best_fruit
+}; //end locate_and_route_to_fruit
 
-function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
+/* 
+ */
+/* Code chunk:
+var board = get_board();
+var BoardHeight = (HEIGHT - 1);
+var BoardWidth = (WIDTH - 1);
+for (TargetY = 0; TargetY <= 2; TargetY++) { 
+		var mhpY = myheight + HeightY;
+		var mhmY = myheight - HeightY;
+	for (TargetX = 0; TargetX <= HeightY; TargetX++) { 
+		var mwpX = mywidth + WidthX;
+		var mwmX = mywidth - WidthX;
+
+	if ( mwmX >= 0 && mwpX <= BoardWidth 
+	&& mhmY >= 0 && mhpY <= BoardHeight ){ 
+		var fruittype2 = board[mwpX][mhpY];
+		var fruittype3 = board[mwmX][mhpY];
+		var fruittype4 = board[mwpX][mhmY];
+		var fruittype5 = board[mwmX][mhmY];
+		if (fruittype > Math.max(fruittype2,fruittype3,fruittype4,fruittype5)) {
+			trace("Better fruit found " + TargetX + ", " + TargetY + " cells away.");
+			return false 
+		}; //end if fruittype
+	}; //end if TargetX
+	}; //end if TargetX
+	}; //end if TargetX 
+*/
+
+/*	Do I want this piece of fruit? 
+	No if:
+	Picking up the piece of fruit won't help me win.
+	Picking up the piece of fruit won't help opponent lose.
+	It's much farther away than other fruits that I also want.
+	
+	Yes if:
+	I have fewer than half of that fruit, and so does my opponent, 
+	because then more than half of that fruit remains.
+	I have exactly half of that fruit, because I want more than half to win.
+	My opponent does not have half, but there's enough on the board to let him get half.
+ */	
+
+ function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
 	if ( TargetX >= 0 && TargetX <= BoardWidth 
 	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
 		trace("Scanning X: " + TargetX + ", Y: " + TargetY);
@@ -289,7 +290,7 @@ function route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 			}; //end if get_my_item_count
 	   }; //end if fruittype
 	}; // end if TargetX
-}; //end route_to_fruit
+}; //end locate_best_fruit
 
 			
 			
