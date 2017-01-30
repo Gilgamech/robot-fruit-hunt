@@ -44,13 +44,14 @@ function make_move() {
 // Look around us for more items to take.
 // Direct looking.
 // for (Incrementor = 0; Incrementor <= Math.max(BoardHeight,BoardWidth); Incrementor++) { 
-// for (HeightY = 0; HeightY <= BoardHeight; HeightY++) { 
-for (HeightY = 0; HeightY <= Math.max(BoardHeight,BoardWidth); HeightY++) { 
+for (HeightY = 0; HeightY <= BoardHeight; HeightY++) { 
+// for (HeightY = 0; HeightY <= Math.max(BoardHeight,BoardWidth); HeightY++) { 
 		var mhpY = myheight + HeightY;
 		var mhmY = myheight - HeightY;
 		// var mhpY = myheight + Incrementor;
 		// var mhmY = myheight - Incrementor;
-	for (WidthX = 0; WidthX <= HeightY; WidthX++) { 
+	//for (WidthX = 0; WidthX <= HeightY; WidthX++) { 
+	for (WidthX = 0; WidthX <= BoardWidth; WidthX++) { 
 		var mwpX = mywidth + WidthX;
 		var mwmX = mywidth - WidthX;
 		// var mwpX = mywidth + Incrementor;
@@ -117,23 +118,23 @@ trace("Error: failed to locate fruit!");
 	//Otherwise, move randomly.
 if (movedir == 0) {
 	var rand = (Math.random() * 4);
-	console.log("movedir-rand: " + rand);
+	trace("movedir-rand: " + rand);
 }; // end if movedir
-	if (rand < 4) {
-		trace("Rand West");
-		return WEST;
-   }; //end if rand 
-	if (rand < 3) { 
-		trace("Rand East");
-	   return EAST;
+   if (rand < 1) { 
+		trace("Rand North");
+	   return NORTH;
    }; //end if rand 
    if (rand < 2) {
 		trace("Rand South");
 	   return SOUTH;
    }; //end if rand 
-   if (rand < 1) { 
-		trace("Rand North");
-	   return NORTH;
+	if (rand < 3) { 
+		trace("Rand East");
+	   return EAST;
+   }; //end if rand 
+	if (rand < 4) {
+		trace("Rand West");
+		return WEST;
    }; //end if rand 
 
 	trace("Default");
@@ -158,6 +159,27 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		// Five melons per map. (3)
 		//return true 
 	}; //end if fruittype
+	if (fruittype == 4) {
+		// Seven cherries per map. (4)
+		if (get_number_of_item_types() == fruittype) {
+			var max_of_array = Math.max.apply(Math , get_board());
+			if (max_of_array == fruittype) {
+				return true
+			}; //end if fruittype
+			return false 
+		}; //end if get_number_of_item_types
+	}; //end if fruittype
+	if (fruittype == 5) {
+	// Nine oranges per map. (5)
+		if (get_number_of_item_types() == fruittype) {
+			var max_of_array = Math.max.apply(Math , get_board());
+			if (max_of_array == fruittype) {
+				return true
+			}; //end if fruittype
+			return false 
+		}; //end if get_number_of_item_types
+	}; //end if fruittype
+	
 /* 
  */
 /* 
@@ -197,10 +219,15 @@ for (TargetY = 0; TargetY <= 2; TargetY++) {
 	I have exactly half of that fruit, because I want more than half to win.
 	My opponent does not have half, but there's enough on the board to let him get half.
  */	
+	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
+	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
+	} else {
+		return true 
 	}; //end if get_my_item_count
-
+	return true 
 }; //end do_i_want_this
+
 function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
 	// Outputs the correct direction number to get you closer to fruit. 
