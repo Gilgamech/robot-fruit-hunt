@@ -87,25 +87,29 @@ var GamePlay = {
         GamePlay.displayScore(ctx, Board.board);
         if (GamePlay.mode == "play") {
            var score = Board.checkGameOver();
+			var div = document.getElementById('fruitbottext');
            if (score !== undefined) {
+			   ctx.font = "30px Arial";
+			   ctx.fillStyle = "#000";
                if (score > 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You win!", 0, 275);
-               }
+				   console.log("You win!");
+				   console.log("You win!");
+				   console.log("You win!");
+				   console.log("You win!");
+				document.getElementById("wins").innerHTML = ((document.getElementById("wins").innerHTML++)+1);                   
+				console.log("You win!");
+               } //end if score
                if (score < 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You lose!", 0, 275);
-               }
+				document.getElementById("losses").innerHTML = ((document.getElementById("losses").innerHTML++)+1);
+				console.log("You lose!");
+               } //end if score
                if (score == 0) {
-                   ctx.font = "30px Arial";
-                   ctx.fillStyle = "#000";
-                   ctx.fillText("You tie!", 0, 275);
-               }
-               GamePlay.mode = "pause";
+				document.getElementById("ties").innerHTML = ((document.getElementById("ties").innerHTML++)+1);
+				console.log("You tie!");
+               } //end if score
+			   GamePlay.init();
                return;
-           }
+		   } //end if score
            Board.processMove();
            setTimeout(function() {GamePlay.draw();}, 500);
         } else {
