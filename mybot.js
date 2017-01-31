@@ -37,7 +37,7 @@ function make_move() {
 			return TAKE;
 		} else {
 			trace("Skipping item " + fruittypehere);
-		}; //end if get_my_item_count
+		}; // end if get_my_item_count
 	};
 
 //BoardHeight // (AKA y)
@@ -64,7 +64,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = SOUTH;
 			if (movedir == 0) {
 				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
-		   }; //end if rand 
+		   }; // end if rand 
 				// console.log("movedir1: " + movedir);
 				// trace("Returning " + movedir);
 				// return movedir;
@@ -75,7 +75,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = SOUTH;
 			if (movedir == 0) {
 				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
-		   }; //end if rand 
+		   }; // end if rand 
 				// console.log("movedir2: " + movedir);
 				// trace("Returning " + movedir);
 			
@@ -85,7 +85,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = NORTH;
 			if (movedir == 0) {
 				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
-		   }; //end if rand 
+		   }; // end if rand 
 				// console.log("movedir3: " + movedir);
 				// trace("Returning " + movedir);
 			
@@ -95,7 +95,7 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 			heightdir = NORTH;
 			if (movedir == 0) {
 				movedir = (locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir));
-		   }; //end if rand 
+		   }; // end if rand 
 				// console.log("movedir4: " + movedir);
 				// trace("Returning " + movedir);
 
@@ -103,10 +103,10 @@ for (HeightY = 0; HeightY <= BoardHeight; HeightY++) {
 	if (movedir > 0) {
 		// trace("Returning " + movedir);
 		return movedir;
-   }; //end if rand 
+   }; // end if rand 
 
-	}; //end for BoardWidth
-}; //end for BoardHeight
+	}; // end for BoardWidth
+}; // end for BoardHeight
 	
 trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
@@ -121,28 +121,27 @@ if (movedir == 0) {
 	trace("Rand " + b2[rand]);
 	return rand
 }; // end if movedir
-} //end make_move 
+} // end make_move 
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if (fruittype == 1) {
 		trace("Always pick up apples, because there's only 1.");
 		return true
-	}; //end if fruittype
+	}; // end if fruittype
 	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
-	}; //end if get_my_item_count
-
+	}; // end if get_my_item_count
+	
 	//if opponent distance there is less than my distance there, I do not want.
 	
 /*
 	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
 		trace("Skipping this one because opponent is closer.");
 		return false
-	}; //end if fruittype
+	}; // end if fruittype
 */
-	
 	// If this fruit type has the most on the board, 
 	// only pick it up 
 	// if there aren't any other types left on the board that we can win.
@@ -151,16 +150,16 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 
 	for (i=0;i<(get_number_of_item_types()); i++) {
 		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
-	}; //end for i	
-
-	
+	}; // end for i
 	if (most_total_items == get_total_item_count(fruittype)) {
 		//Is this the last type of fruit left on the board?
 		if (get_number_of_item_types() == min_fruit_type_still_on_board) {
 			//Is this the last type of fruit left on the board?
 			trace("This is the last fruit type " + min_fruit_type_still_on_board + " left on the board.");
 			return true
-		}; //end if get_number_of_item_types
+		}; // end if get_number_of_item_types
+	
+	
 		
 		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
 		|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
@@ -172,19 +171,24 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		}; //end if get_my_item_count
 		trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it. Catch.");
 		return true
-	}; //end if get_number_of_item_types
 	
+	}; // end if get_number_of_item_types
+
+/*
 		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
 	|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
 	// if (min_fruit_type_still_on_board > 1 && get_my_item_count(min_fruit_type_still_on_board) < 1) {
 		//Do we want the other type of fruit? Do we have more than half, or does the opponent? Return false to reject this fruit in favor of that one.
 		trace("Min fruit type " + min_fruit_type_still_on_board + " more than half taken by us or opponent.");
 		return false 
-	}; //end if get_number_of_item_types
+	}; // end if get_number_of_item_types
+*/	
+
+	
 
 	
 	return true 
-}; //end do_i_want_this
+}; // end do_i_want_this
 	
 function fruit_type_still_on_board_fun() {
 	var board = get_board();
@@ -193,10 +197,10 @@ function fruit_type_still_on_board_fun() {
 	for (j=0;j<(board.length); j++) {
 		for (i=0;i<(board[0].length); i++) {
 			fruit_left_on_board[board[j][i] - 1]++;
-		}; //end for i
-	}; //end for j
+		}; // end for i
+	}; // end for j
 	return fruit_left_on_board;
-}; //end min_fruit_type_still_on_board
+}; // end min_fruit_type_still_on_board
 
 function min_fruit_type_still_on_board_fun() {
 	var board = get_board();
@@ -207,11 +211,11 @@ function min_fruit_type_still_on_board_fun() {
 		if (fruit_left_on_board[i] > 0) { 
 			min_fruit_type_still_on_board = Math.min(min_fruit_type_still_on_board,(i+1));
 		};
-	}; //end for i
+	}; // end for i
 
 	
 	return min_fruit_type_still_on_board;
-}; //end min_fruit_type_still_on_board
+}; // end min_fruit_type_still_on_board
 	
 function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
@@ -240,14 +244,14 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 				} else {
 					trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + b2[widthdir]);
 					return widthdir;
-				}; //end if WidthX
-			}; //end if do_i_want_this
+				}; // end if WidthX
+			}; // end if do_i_want_this
 			trace("Skipping item " + fruittype);
-	   }; //end if fruittype
+	   }; // end if fruittype
 	}; // end if TargetX
 
 	return 0
-}; //end locate_and_route_to_fruit
+}; // end locate_and_route_to_fruit
 
 /* 
  */
@@ -284,13 +288,13 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 					} else {
 						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + heightdir);
 						return heightdir;
-					}; //end if WidthX
+					}; // end if WidthX
 				} else {
-				}; //end if get_my_item_count
-			}; //end if get_my_item_count
-	   }; //end if fruittype
+				}; // end if get_my_item_count
+			}; // end if get_my_item_count
+	   }; // end if fruittype
 	}; // end if TargetX
-}; //end locate_best_fruit
+}; // end locate_best_fruit
 
 			
 			
