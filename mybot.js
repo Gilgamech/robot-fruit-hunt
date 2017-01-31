@@ -26,8 +26,8 @@ function make_move() {
 	var BoardWidth = (WIDTH - 1);
 	var fruittypehere = board[mywidth][myheight];
 
-	trace("Current location: " + mywidth + ", " + myheight);
-	trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
+	// trace("Current location: " + mywidth + ", " + myheight);
+	// trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
 
    // we found an item! take it!
 	if (fruittypehere > 0) {
@@ -142,9 +142,6 @@ if (movedir == 0) {
 	return PASS;
 } //end make_move 
 
-//To increase X, move west=4, to decrease, move east=3. 
-//To increase Y, move north=1, to decrease, move south=2. 
-
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	// If this fruit type has the most on the board, 
 	// only pick it up 
@@ -196,11 +193,10 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
-	//} else {
-		//return true 
 	}; //end if get_my_item_count
 	return true 
 }; //end do_i_want_this
+	
 
 function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
@@ -235,7 +231,7 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	   }; //end if fruittype
 	}; // end if TargetX
 
-return 0
+	return 0
 }; //end locate_and_route_to_fruit
 
 /* 
