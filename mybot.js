@@ -134,14 +134,14 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		return false 
 	}; // end if get_my_item_count
 	
-	//if opponent distance there is less than my distance there, I do not want.
-	
 /*
+	//if opponent distance there is less than my distance there, I do not want.
 	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
 		trace("Skipping this one because opponent is closer.");
 		return false
 	}; // end if fruittype
 */
+	
 	// If this fruit type has the most on the board, 
 	// only pick it up 
 	// if there aren't any other types left on the board that we can win.
@@ -151,6 +151,7 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	for (i=0;i<(get_number_of_item_types()); i++) {
 		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
 	}; // end for i
+	
 	if (most_total_items == get_total_item_count(fruittype)) {
 		//Is this the last type of fruit left on the board?
 		if (get_number_of_item_types() == min_fruit_type_still_on_board) {
@@ -158,35 +159,20 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 			trace("This is the last fruit type " + min_fruit_type_still_on_board + " left on the board.");
 			return true
 		}; // end if get_number_of_item_types
-	
-	
 		
 		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
 		|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
 			trace("This is the second fruit type " + min_fruit_type_still_on_board + " and we want it.");
-				return true 
-			} else {
+			return true 
+		} else {
 			trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it.");
-				return false 
+			return false 
 		}; //end if get_my_item_count
 		trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it. Catch.");
 		return true
 	
 	}; // end if get_number_of_item_types
 
-/*
-		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
-	|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
-	// if (min_fruit_type_still_on_board > 1 && get_my_item_count(min_fruit_type_still_on_board) < 1) {
-		//Do we want the other type of fruit? Do we have more than half, or does the opponent? Return false to reject this fruit in favor of that one.
-		trace("Min fruit type " + min_fruit_type_still_on_board + " more than half taken by us or opponent.");
-		return false 
-	}; // end if get_number_of_item_types
-*/	
-
-	
-
-	
 	return true 
 }; // end do_i_want_this
 	
