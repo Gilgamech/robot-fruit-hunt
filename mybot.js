@@ -20,6 +20,7 @@ function make_move() {
 	var movedir = 0;
 	var mywidth = get_my_x();
 	var myheight = get_my_y();
+	var b2 = ["none","east","north","west","south"];
 	var widthdir = WEST;
 	var heightdir = NORTH;
 	var BoardHeight = (HEIGHT - 1);
@@ -112,34 +113,14 @@ trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
 trace("Error: failed to locate fruit!");
-//Waiting for the opponent to win.
+// Waiting for the opponent to win.
 
 	//Otherwise, move randomly.
 if (movedir == 0) {
-	var rand = (Math.random() * 4);
-	trace("movedir-rand: " + rand);
+	var rand = Math.ceil(Math.random() * 4);
+	trace("Rand " + b2[rand]);
+	return rand
 }; // end if movedir
-   if (rand < 1) { 
-		trace("Rand North");
-	   return NORTH;
-   }; //end if rand 
-   if (rand < 2) {
-		trace("Rand South");
-	   return SOUTH;
-   }; //end if rand 
-	if (rand < 3) { 
-		trace("Rand East");
-	   return EAST;
-   }; //end if rand 
-	if (rand < 4) {
-		trace("Rand West");
-		return WEST;
-   }; //end if rand 
-
-	trace("Default");
-	trace(rand);
-
-	return PASS;
 } //end make_move 
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
