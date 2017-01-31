@@ -143,52 +143,27 @@ if (movedir == 0) {
 } //end make_move 
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
+	if (fruittype == 1) {
+		//Always pick up apples, because there's only 1.
+		return true
+	}; //end if fruittype
 	// If this fruit type has the most on the board, 
 	// only pick it up 
-	// if there aren't any other types left on the board.
-	/*
-	max_total_item_count = Math.max(get_total_item_count(1),get_total_item_count(2),get_total_item_count(3),get_total_item_count(4),get_total_item_count(5));
-	if (get_total_item_count(fruittype) = max_total_item_count) {
-		var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
+	// if there aren't any other types left on the board that we can win.
+	var most_total_items = get_total_item_count(get_number_of_item_types());
+	var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
+	for (i=0;i<(get_number_of_item_types()); i++) {
+		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
+	}; //end for i
+	if (most_total_items == get_total_item_count(fruittype)) {
 		//Is this the last type of fruit left on the board?
-		if (min_fruit_type_still_on_board !== fruittype) {
-			return false 
-		}; //end if fruittype
-	}
-	*/
-	if (fruittype == 1) {
-	// One apple per map. (1)
-		return true 
-	}; //end if fruittype
-	if (fruittype == 2) {
-		// Three bananas per map. (2) 
-		//return true 
-	}; //end if fruittype
-	if (fruittype == 3) {
-		// Five melons per map. (3)
-		//return true 
-	}; //end if fruittype
-	if (fruittype == 4) {
-		// Seven cherries per map. (4)
-		if (get_number_of_item_types() == fruittype) {
-			var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
-			//Is this the last type of fruit left on the board?
-			if (min_fruit_type_still_on_board !== fruittype) {
-				return false 
-			}; //end if fruittype
-			// return true
-		}; //end if get_number_of_item_types
-	}; //end if fruittype
-	if (fruittype == 5) {
-	// Nine oranges per map. (5)
-		if (get_number_of_item_types() == fruittype) {
-			var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
-			if (min_fruit_type_still_on_board !== fruittype) {
-				return false 
-			}; //end if fruittype
-			// return true
-		}; //end if get_number_of_item_types
-	}; //end if fruittype
+			if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
+			|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
+					return true 
+				} else {
+					return false 
+			}; //end if get_my_item_count
+	}; //end if get_number_of_item_types
 	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
