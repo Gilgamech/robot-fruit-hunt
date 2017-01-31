@@ -170,9 +170,9 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		}; //end if get_my_item_count
 		trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it. Catch.");
 		return true
-	
-	}; // end if get_number_of_item_types
 
+	}; // end if get_number_of_item_types
+
 	return true 
 }; // end do_i_want_this
 	
