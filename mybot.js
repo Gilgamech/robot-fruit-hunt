@@ -125,35 +125,94 @@ if (movedir == 0) {
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if (fruittype == 1) {
-		//Always pick up apples, because there's only 1.
+		trace("Always pick up apples, because there's only 1.");
 		return true
 	}; //end if fruittype
-	// If this fruit type has the most on the board, 
-	// only pick it up 
-	// if there aren't any other types left on the board that we can win.
-	var most_total_items = get_total_item_count(get_number_of_item_types());
-	var min_fruit_type_still_on_board = Math.min.apply(Math , get_board());
-	for (i=0;i<(get_number_of_item_types()); i++) {
-		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
-	}; //end for i
-	if (most_total_items == get_total_item_count(fruittype)) {
-		//Is this the last type of fruit left on the board?
-			if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
-			|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
-					return true 
-				} else {
-					return false 
-			}; //end if get_my_item_count
-	}; //end if get_number_of_item_types
 	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
 	}; //end if get_my_item_count
+
+	//if opponent distance there is less than my distance there, I do not want.
+	
+/*
+	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
+		trace("Skipping this one because opponent is closer.");
+		return false
+	}; //end if fruittype
+*/
+	
+	// If this fruit type has the most on the board, 
+	// only pick it up 
+	// if there aren't any other types left on the board that we can win.
+	var most_total_items = get_total_item_count(get_number_of_item_types());
+	var min_fruit_type_still_on_board = min_fruit_type_still_on_board_fun();
+
+	for (i=0;i<(get_number_of_item_types()); i++) {
+		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
+	}; //end for i	
+
+	
+	if (most_total_items == get_total_item_count(fruittype)) {
+		//Is this the last type of fruit left on the board?
+		if (get_number_of_item_types() == min_fruit_type_still_on_board) {
+			//Is this the last type of fruit left on the board?
+			trace("This is the last fruit type " + min_fruit_type_still_on_board + " left on the board.");
+			return true
+		}; //end if get_number_of_item_types
+		
+		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
+		|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
+			trace("This is the second fruit type " + min_fruit_type_still_on_board + " and we want it.");
+				return true 
+			} else {
+			trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it.");
+				return false 
+		}; //end if get_my_item_count
+		trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it. Catch.");
+		return true
+	}; //end if get_number_of_item_types
+	
+		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
+	|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
+	// if (min_fruit_type_still_on_board > 1 && get_my_item_count(min_fruit_type_still_on_board) < 1) {
+		//Do we want the other type of fruit? Do we have more than half, or does the opponent? Return false to reject this fruit in favor of that one.
+		trace("Min fruit type " + min_fruit_type_still_on_board + " more than half taken by us or opponent.");
+		return false 
+	}; //end if get_number_of_item_types
+
+	
 	return true 
 }; //end do_i_want_this
 	
+function fruit_type_still_on_board_fun() {
+	var board = get_board();
+	var fruit_left_on_board = [0,0,0,0,0];
 
+	for (j=0;j<(board.length); j++) {
+		for (i=0;i<(board[0].length); i++) {
+			fruit_left_on_board[board[j][i] - 1]++;
+		}; //end for i
+	}; //end for j
+	return fruit_left_on_board;
+}; //end min_fruit_type_still_on_board
+
+function min_fruit_type_still_on_board_fun() {
+	var board = get_board();
+	var fruit_left_on_board = fruit_type_still_on_board_fun();
+	var min_fruit_type_still_on_board = Math.max.apply(Math, fruit_type_still_on_board_fun());
+
+	for (i=0;i<(fruit_left_on_board.length); i++) {
+		if (fruit_left_on_board[i] > 0) { 
+			min_fruit_type_still_on_board = Math.min(min_fruit_type_still_on_board,(i+1));
+		};
+	}; //end for i
+
+	
+	return min_fruit_type_still_on_board;
+}; //end min_fruit_type_still_on_board
+	
 function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
 	// Outputs the correct direction number to get you closer to fruit. 
@@ -192,31 +251,6 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 
 /* 
  */
-/* Code chunk:
-var board = get_board();
-var BoardHeight = (HEIGHT - 1);
-var BoardWidth = (WIDTH - 1);
-for (TargetY = 0; TargetY <= 2; TargetY++) { 
-		var mhpY = myheight + HeightY;
-		var mhmY = myheight - HeightY;
-	for (TargetX = 0; TargetX <= HeightY; TargetX++) { 
-		var mwpX = mywidth + WidthX;
-		var mwmX = mywidth - WidthX;
-
-	if ( mwmX >= 0 && mwpX <= BoardWidth 
-	&& mhmY >= 0 && mhpY <= BoardHeight ){ 
-		var fruittype2 = board[mwpX][mhpY];
-		var fruittype3 = board[mwmX][mhpY];
-		var fruittype4 = board[mwpX][mhmY];
-		var fruittype5 = board[mwmX][mhmY];
-		if (fruittype > Math.max(fruittype2,fruittype3,fruittype4,fruittype5)) {
-			trace("Better fruit found " + TargetX + ", " + TargetY + " cells away.");
-			return false 
-		}; //end if fruittype
-	}; //end if TargetX
-	}; //end if TargetX
-	}; //end if TargetX 
-*/
 
 /*	Do I want this piece of fruit? 
 	No if:
