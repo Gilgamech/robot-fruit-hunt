@@ -207,51 +207,46 @@ function min_fruit_type_still_on_board_fun() {
 	return min_fruit_type_still_on_board;
 }; // end min_fruit_type_still_on_board
 	
-function make_heatmapvar() {
-	//Set up heatmapvar to be same size as board, then zero out.
-	var board2 = get_board();
-	trace(board2);
-	var heatmapvar = board2;
-	trace(board2);
-/*
-	for (j=0;j<(heatmapvar.length); j++) {
-		for (i=0;i<(heatmapvar[0].length); i++) {
-				heatmapvar[j][i] = 0;
-		}; // end for i
-	}; // end for j
-	trace(board2);
-*/
+function get_heatmap(hmapinput) {
+	//Set up heatmap to be same size as board, then zero out.
+	var board = get_board();
+	var heatmap = [];
 
-	for (j=0;j<(heatmapvar.length); j++) {
-		for (i=0;i<(heatmapvar[0].length); i++) {
-			if (heatmapvar[j][i] > 0) {
+	for (var i = 0; i < board.length; i++) {
+		heatmap[i] = board[i].slice();
+	}; // end for j
+
+	for (j=0;j<(board.length); j++) {
+		for (i=0;i<(board[0].length); i++) {
 			
-				heatmapvar[j][i] += (1 / (  get_total_item_count(  board2[j][i]  )  )  );
-/*
-				
-				if (i+1 < heatmapvar[0].length) {
-					heatmapvar[j][i+1] += (1 / (  get_total_item_count(  (board2[j][i+1])  )  )  );
-				}; // end if i+1
-				
-				if (i-1 >= 0) {
-					heatmapvar[j][i-1] += (1 / (  get_total_item_count(  (board2[j][i-1])  )  )  );
-				}; // end if i+1
-				
-				if (j+1 < heatmapvar.length) {
-					heatmapvar[j+1][i] += (1 / (  get_total_item_count(  (board2[j+1][i])  )  )  );
-				}; // end if i+1
-				
-				if (j-1 >= 0) {
-					heatmapvar[j-1][i] += (1 / (  get_total_item_count(  (board2[j-1][i])  )  )  );
-				}; // end if i+1
-*/
-			
+			if (board[j][i] > 0) {
+				heatmap[j][i] = (1 / (  get_total_item_count(  board[j][i]  )  )  );
 			}; // end if board[j][i]
+
+			if (i+1 < (heatmap[0].length)
+				&& board[j][i+1] > 0) {
+				heatmap[j][i+1] += (1 / (  get_total_item_count(  (board[j][i+1])  )  )  );
+			}; // end if board[j][i]
+				
+			if (i-1 >= 0
+				&& board[j][i-1] > 0) {
+				heatmap[j][i-1] += (1 / (  get_total_item_count(  (board[j][i-1])  )  )  );
+			}; // end if board[j][i]
+				
+			if (j+1 < heatmap.length
+				&& board[j+1][i] > 0) {
+				heatmap[j+1][i] += (1 / (  get_total_item_count(  (board[j+1][i])  )  )  );
+			}; // end if board[j][i]
+				
+			if (j-1 >= 0
+				&& board[j-1][i] > 0) {
+				heatmap[j-1][i] += (1 / (  get_total_item_count(  (board[j-1][i])  )  )  );
+			}; // end if board[j][i]
+				
 		}; // end for i
 	}; // end for j
-	trace(board2);
 
-	return heatmapvar;
+	return heatmap;
 }; // end make_heat_map
 	
 function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
