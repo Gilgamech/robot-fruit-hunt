@@ -190,15 +190,7 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 }; // end do_i_want_this
 	
 function fruit_type_still_on_board_fun() {
-	var board = get_board();
-	var fruit_left_on_board = [0,0,0,0,0];
-
-	for (j=0;j<(board.length); j++) {
-		for (i=0;i<(board[0].length); i++) {
-			fruit_left_on_board[board[j][i] - 1]++;
-		}; // end for i
-	}; // end for j
-	return fruit_left_on_board;
+	return Board.totalItems;
 }; // end min_fruit_type_still_on_board
 
 function min_fruit_type_still_on_board_fun() {
