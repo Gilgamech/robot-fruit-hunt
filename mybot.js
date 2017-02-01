@@ -123,24 +123,37 @@ if (movedir == 0) {
 }; // end if movedir
 } // end make_move 
 
+// One function to make a "pointmap" showing the relative contribution to winning the game.
+// Another function to turn that into some kind of "value" - the relative contribution of an area to winning the game.
+// Dynamically generate regions and areas by grouping fruit. 
+// Look up how to identify shapes with, like ML in Javascript.
+
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	if (fruittype == 1) {
 		trace("Always pick up apples, because there's only 1.");
 		return true
 	}; // end if fruittype
 	
+	if (get_opponent_x() == mywidth
+	&& get_opponent_y() == myheight) {
+		trace("Skipping because we're on the same cell as opponent.");
+		return false
+	}; // end if get_opponent_x
+	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
 	}; // end if get_my_item_count
 	
-/*
 	//if opponent distance there is less than my distance there, I do not want.
+/*
 	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
+*/
+	if (get_opponent_x() == TargetX
+	&& get_opponent_y() == TargetY) {
 		trace("Skipping this one because opponent is closer.");
 		return false
-	}; // end if fruittype
-*/
+	}; // end if get_opponent_x
 	
 	// If this fruit type has the most on the board, 
 	// only pick it up 
@@ -189,7 +202,6 @@ function fruit_type_still_on_board_fun() {
 }; // end min_fruit_type_still_on_board
 
 function min_fruit_type_still_on_board_fun() {
-	var board = get_board();
 	var fruit_left_on_board = fruit_type_still_on_board_fun();
 	var min_fruit_type_still_on_board = Math.max.apply(Math, fruit_type_still_on_board_fun());
 
@@ -202,6 +214,53 @@ function min_fruit_type_still_on_board_fun() {
 	
 	return min_fruit_type_still_on_board;
 }; // end min_fruit_type_still_on_board
+	
+function make_heatmapvar() {
+	//Set up heatmapvar to be same size as board, then zero out.
+	var board2 = get_board();
+	trace(board2);
+	var heatmapvar = board2;
+	trace(board2);
+/*
+	for (j=0;j<(heatmapvar.length); j++) {
+		for (i=0;i<(heatmapvar[0].length); i++) {
+				heatmapvar[j][i] = 0;
+		}; // end for i
+	}; // end for j
+	trace(board2);
+*/
+
+	for (j=0;j<(heatmapvar.length); j++) {
+		for (i=0;i<(heatmapvar[0].length); i++) {
+			if (heatmapvar[j][i] > 0) {
+			
+				heatmapvar[j][i] += (1 / (  get_total_item_count(  board2[j][i]  )  )  );
+/*
+				
+				if (i+1 < heatmapvar[0].length) {
+					heatmapvar[j][i+1] += (1 / (  get_total_item_count(  (board2[j][i+1])  )  )  );
+				}; // end if i+1
+				
+				if (i-1 >= 0) {
+					heatmapvar[j][i-1] += (1 / (  get_total_item_count(  (board2[j][i-1])  )  )  );
+				}; // end if i+1
+				
+				if (j+1 < heatmapvar.length) {
+					heatmapvar[j+1][i] += (1 / (  get_total_item_count(  (board2[j+1][i])  )  )  );
+				}; // end if i+1
+				
+				if (j-1 >= 0) {
+					heatmapvar[j-1][i] += (1 / (  get_total_item_count(  (board2[j-1][i])  )  )  );
+				}; // end if i+1
+*/
+			
+			}; // end if board[j][i]
+		}; // end for i
+	}; // end for j
+	trace(board2);
+
+	return heatmapvar;
+}; // end make_heat_map
 	
 function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	// Takes the search target X and target Y, the width direction number and height direction number. 
@@ -255,34 +314,6 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	My opponent does not have half, but there's enough on the board to let him get half.
  */	
 
- function locate_best_fruit(TargetX,TargetY,widthdir,heightdir) {
-	if ( TargetX >= 0 && TargetX <= BoardWidth 
-	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-		trace("Scanning X: " + TargetX + ", Y: " + TargetY);
-		var fruittype = board[TargetX][TargetY];
-		if (fruittype > 0) {
-			if (get_my_item_count(fruittype) !== undefined) {
-				if (get_my_item_count(fruittype) < (get_total_item_count(fruittype) /2)) {
-					//If the location has a piece of fruit, and the Width increment (distance there) is higher, 
-					// go sideways, otherwise the Height increment is higher so go vertical.
-					
-					var WidthX = (mywidth - TargetX); 
-					var HeightY = (myheight - TargetY);
-					if (WidthX > HeightY) {
-						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + widthdir);
-						return widthdir;
-					} else {
-						trace("Item " + fruittype + " located at " + TargetX + ", " + TargetY + " - Moving " + heightdir);
-						return heightdir;
-					}; // end if WidthX
-				} else {
-				}; // end if get_my_item_count
-			}; // end if get_my_item_count
-	   }; // end if fruittype
-	}; // end if TargetX
-}; // end locate_best_fruit
-
-			
 			
 			
 function new_game() {
