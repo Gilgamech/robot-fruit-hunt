@@ -147,7 +147,14 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 	
 	//if opponent distance there is less than my distance there, I do not want.
 /*
+	//if opponent distance there is less than my distance there, I do not want.
 	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
+		
+	if (get_opponent_x() == mywidth
+	&& get_opponent_y() == myheight) {
+		trace("Skipping because we're on the same cell as opponent.");
+		return false
+	}; // end if get_opponent_x
 */
 	if (get_opponent_x() == TargetX
 	&& get_opponent_y() == TargetY) {
@@ -155,6 +162,8 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		return false
 	}; // end if get_opponent_x
 	
+	
+/*
 	// If this fruit type has the most on the board, 
 	// only pick it up 
 	// if there aren't any other types left on the board that we can win.
@@ -185,7 +194,17 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 		return true
 
 	}; // end if get_number_of_item_types
-
+*/
+	var heatmap = get_heatmap();
+	var heatmap_divisor = 4;
+	if (heatmap[TargetX][TargetY] > ( max_heatmap_score() /heatmap_divisor) ) {
+		trace("Heatmap score " + heatmap[TargetX][TargetY] + " OK!");
+		return true 
+		} else {
+		trace("Heatmap score " + heatmap[TargetX][TargetY] + " too low.");
+		return false
+	}; // end if get_opponent_x
+
 	return true 
 }; // end do_i_want_this
 	
@@ -207,10 +226,31 @@ function min_fruit_type_still_on_board_fun() {
 	return min_fruit_type_still_on_board;
 }; // end min_fruit_type_still_on_board
 	
-function get_heatmap(hmapinput) {
+function max_heatmap_score() {
+	var heatmap = get_heatmap();
+	var max_heatmap_score = 0;
+	
+	for (j=0;j<(heatmap.length); j++) {
+		for (i=0;i<(heatmap[0].length); i++) {
+			if (heatmap[j][i] > 0) {
+				max_heatmap_score = Math.max(max_heatmap_score,(heatmap[j][i]));
+			};
+		}; // end for i
+	}; // end for i
+
+	
+	return max_heatmap_score;
+}; // end max_heatmap_score
+	
+function get_current_item_count(item) {
+	(get_total_item_count(item) - (get_opponent_item_count(item) + get_my_item_count(item)));
+}; // end get_current_item_count
+	
+function get_heatmap() {
 	//Set up heatmap to be same size as board, then zero out.
 	var board = get_board();
 	var heatmap = [];
+	var next_cell_percentage = .8;
 
 	for (var i = 0; i < board.length; i++) {
 		heatmap[i] = board[i].slice();
@@ -219,28 +259,32 @@ function get_heatmap(hmapinput) {
 	for (j=0;j<(board.length); j++) {
 		for (i=0;i<(board[0].length); i++) {
 			
+			var itemvalhere = (1 / ( Math.ceil( get_total_item_count( board[j][i] ) / 2) ) );
+			
 			if (board[j][i] > 0) {
-				heatmap[j][i] = (1 / (  get_total_item_count(  board[j][i]  )  )  );
-			}; // end if board[j][i]
+				heatmap[j][i] = itemvalhere;
 
-			if (i+1 < (heatmap[0].length)
-				&& board[j][i+1] > 0) {
-				heatmap[j][i+1] += (1 / (  get_total_item_count(  (board[j][i+1])  )  )  );
-			}; // end if board[j][i]
+				itemvalhere = itemvalhere*next_cell_percentage;
+				if (i+1 < heatmap[0].length) {
+					// && board[j][i+1] > 0) {
+					heatmap[j][i+1] += itemvalhere;
+				}; // end if board[j][i]
+					
+				if (i-1 >= 0) {
+					// && board[j][i-1] > 0) {
+					heatmap[j][i-1] += itemvalhere;
+				}; // end if board[j][i]
+					
+				if (j+1 < heatmap.length) {
+					// && board[j+1][i] > 0) {
+					heatmap[j+1][i] += itemvalhere;
+				}; // end if board[j][i]
+					
+				if (j-1 >= 0) {
+					// && board[j-1][i] > 0) {
+					heatmap[j-1][i] += itemvalhere;
+				}; // end if board[j][i]
 				
-			if (i-1 >= 0
-				&& board[j][i-1] > 0) {
-				heatmap[j][i-1] += (1 / (  get_total_item_count(  (board[j][i-1])  )  )  );
-			}; // end if board[j][i]
-				
-			if (j+1 < heatmap.length
-				&& board[j+1][i] > 0) {
-				heatmap[j+1][i] += (1 / (  get_total_item_count(  (board[j+1][i])  )  )  );
-			}; // end if board[j][i]
-				
-			if (j-1 >= 0
-				&& board[j-1][i] > 0) {
-				heatmap[j-1][i] += (1 / (  get_total_item_count(  (board[j-1][i])  )  )  );
 			}; // end if board[j][i]
 				
 		}; // end for i
