@@ -14,7 +14,7 @@
 //  Y 0,2 1,2 2,2
 // 
 
-var heatmap_percentage = .5;
+var heatmap_percentage = .8;
 var next_cell_percentage = .5;
 
 function make_move() {
@@ -33,6 +33,7 @@ function make_move() {
 
 	// trace("Current location: " + mywidth + ", " + myheight);
 	// trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
+var heatmap_incr = 1;
 	trace("Current max heatmap: " + max_heatmap_score() + " with cutoff:" + (max_heatmap_score() * heatmap_percentage));
 
    // we found an item! take it!
@@ -227,29 +228,65 @@ function get_heatmap() {
 			// var itemvalhere = (Math.ceil( (1 / ( Math.ceil( (get_total_item_count( fruittype )  / 2) - get_opponent_item_count(fruittype)  )) - get_my_item_count( fruittype )) *100)/100);
 			
 			if (fruittype > 0) {
-				heatmap[j][i] = itemvalhere;
+				heatmap[j][i] = itemval;
 
-				itemvalhere = itemvalhere*next_cell_percentage;
-				if (i+1 < heatmap[0].length
-				&& board[j][i+1] > 0) {
-					heatmap[j][i+1] += itemvalhere;
-				}; // end if fruittype
-					
-				if (i-1 >= 0
-				&& board[j][i-1] > 0) {
-					heatmap[j][i-1] += itemvalhere;
-				}; // end if fruittype
-					
-				if (j+1 < heatmap.length
-				&& board[j+1][i] > 0) {
-					heatmap[j+1][i] += itemvalhere;
-				}; // end if fruittype
-					
-				if (j-1 >= 0
-				&& board[j-1][i] > 0) {
-					heatmap[j-1][i] += itemvalhere;
-				}; // end if fruittype
+				// var fc_incr = 1;
 				
+				
+				for (fc_incr = 0; fc_incr < heatmap_incr; fc_incr++) { 
+				itemvalhere = itemval*next_cell_percentage * (1/fc_incr+1);
+				
+					if (i+fc_incr < heatmap[0].length
+					&& board[j][i+fc_incr] > 0) {
+						heatmap[j][i+fc_incr] += itemvalhere;
+					}; // end if fruittype
+						
+					if (i-fc_incr >= 0
+					&& board[j][i-fc_incr] > 0) {
+						heatmap[j][i-fc_incr] += itemvalhere;
+					}; // end if fruittype
+						
+					if (j+fc_incr < heatmap.length
+					&& board[j+fc_incr][i] > 0) {
+						heatmap[j+fc_incr][i] += itemvalhere;
+					}; // end if fruittype
+						
+					if (j-fc_incr >= 0
+					&& board[j-fc_incr][i] > 0) {
+						heatmap[j-fc_incr][i] += itemvalhere;
+					}; // end if fruittype
+					
+					
+					if (i+fc_incr < heatmap[0].length
+					&& j+fc_incr < heatmap.length
+					&& board[j][i+fc_incr] > 0
+					&& board[j+fc_incr][i] > 0) {
+						heatmap[j+fc_incr][i+fc_incr] += itemvalhere;
+					}; // end if fruittype
+						
+					if (i-fc_incr >= 0
+					&& j+fc_incr < heatmap.length
+					&& board[j][i-fc_incr] > 0
+					&& board[j+fc_incr][i] > 0) {
+						heatmap[j+fc_incr][i-fc_incr] += itemvalhere;
+					}; // end if fruittype
+						
+					if (i+fc_incr < heatmap[0].length
+					&& j-fc_incr >= 0
+					&& board[j][i+fc_incr] > 0
+					&& board[j-fc_incr][i] > 0) {
+						heatmap[j-fc_incr][i+fc_incr] += itemvalhere;
+					}; // end if fruittype
+						
+					if (i-fc_incr >= 0
+					&& j-fc_incr >= 0
+					&& board[j][i-fc_incr] > 0
+					&& board[j-fc_incr][i] > 0) {
+						heatmap[j-fc_incr][i-fc_incr] += itemvalhere;
+					}; // end if fruittype
+				
+				}; // end for fc_incr
+
 			}; // end if fruittype
 				
 		}; // end for i
