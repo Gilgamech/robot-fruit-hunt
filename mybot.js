@@ -13,6 +13,10 @@
 //  v 0,1 1,1 2,1 
 //  Y 0,2 1,2 2,2
 // 
+
+var heatmap_percentage = .5;
+var next_cell_percentage = .5;
+
 function make_move() {
 	var board = get_board();
 	var TargetX = 0;
@@ -29,6 +33,7 @@ function make_move() {
 
 	// trace("Current location: " + mywidth + ", " + myheight);
 	// trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
+	trace("Current max heatmap: " + max_heatmap_score() + " with cutoff:" + (max_heatmap_score() * heatmap_percentage));
 
    // we found an item! take it!
 	if (fruittypehere > 0) {
@@ -129,75 +134,21 @@ if (movedir == 0) {
 // Look up how to identify shapes with, like ML in Javascript.
 
 function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
-	if (fruittype == 1) {
-		trace("Always pick up apples, because there's only 1.");
-		return true
-	}; // end if fruittype
-	
-	if (get_opponent_x() == mywidth
-	&& get_opponent_y() == myheight) {
-		trace("Skipping because we're on the same cell as opponent.");
-		return false
-	}; // end if get_opponent_x
-	
 	if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
 	|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
 		return false 
 	}; // end if get_my_item_count
 	
-	//if opponent distance there is less than my distance there, I do not want.
-/*
-	//if opponent distance there is less than my distance there, I do not want.
-	if (((Math.abs(mywidth-TargetX)) + (Math.abs(myheight -TargetY))) > ((Math.abs((get_opponent_x())-TargetX)) + (Math.abs((get_opponent_y()) -TargetY)))) {
-		
-	if (get_opponent_x() == mywidth
-	&& get_opponent_y() == myheight) {
-		trace("Skipping because we're on the same cell as opponent.");
-		return false
-	}; // end if get_opponent_x
-*/
 	if (get_opponent_x() == TargetX
-	&& get_opponent_y() == TargetY) {
+	&& get_opponent_y() == TargetY
+	&& (get_opponent_x() !== mywidth
+	&& get_opponent_y() !== myheight)) {
 		trace("Skipping this one because opponent is closer.");
 		return false
 	}; // end if get_opponent_x
 	
-	
-/*
-	// If this fruit type has the most on the board, 
-	// only pick it up 
-	// if there aren't any other types left on the board that we can win.
-	var most_total_items = get_total_item_count(get_number_of_item_types());
-	var min_fruit_type_still_on_board = min_fruit_type_still_on_board_fun();
-
-	for (i=0;i<(get_number_of_item_types()); i++) {
-		most_total_items = Math.max(most_total_items,get_total_item_count(i+1));
-	}; // end for i
-	
-	if (most_total_items == get_total_item_count(fruittype)) {
-		//Is this the last type of fruit left on the board?
-		if (get_number_of_item_types() == min_fruit_type_still_on_board) {
-			//Is this the last type of fruit left on the board?
-			trace("This is the last fruit type " + min_fruit_type_still_on_board + " left on the board.");
-			return true
-		}; // end if get_number_of_item_types
-		
-		if ((get_my_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)
-		|| (get_opponent_item_count(min_fruit_type_still_on_board)) > (get_total_item_count(min_fruit_type_still_on_board) /2)) {
-			trace("This is the second fruit type " + min_fruit_type_still_on_board + " and we want it.");
-			return true 
-		} else {
-			trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it.");
-			return false 
-		}; //end if get_my_item_count
-		trace("This is the second fruit type " + min_fruit_type_still_on_board + " but we don't want it. Catch.");
-		return true
-
-	}; // end if get_number_of_item_types
-*/
-	var heatmap = get_heatmap();
-	var heatmap_divisor = 4;
-	if (heatmap[TargetX][TargetY] > ( max_heatmap_score() /heatmap_divisor) ) {
+	var heatmap = get_heatmap();
+	if (heatmap[TargetX][TargetY] >= ( max_heatmap_score() * heatmap_percentage) ) {
 		trace("Heatmap score " + heatmap[TargetX][TargetY] + " OK!");
 		return true 
 		} else {
@@ -207,6 +158,7 @@ function do_i_want_this(fruittype,mywidth,myheight,TargetX,TargetY) {
 
 	return true 
 }; // end do_i_want_this
+	
 	
 function fruit_type_still_on_board_fun() {
 	return Board.totalItems;
@@ -233,24 +185,23 @@ function max_heatmap_score() {
 	for (j=0;j<(heatmap.length); j++) {
 		for (i=0;i<(heatmap[0].length); i++) {
 			if (heatmap[j][i] > 0) {
-				max_heatmap_score = Math.max(max_heatmap_score,(heatmap[j][i]));
+				max_heatmap_score = Math.ceil( Math.max(max_heatmap_score,heatmap[j][i]) *100) / 100;
 			};
 		}; // end for i
 	}; // end for i
 
 	
-	return max_heatmap_score;
+	return  max_heatmap_score;
 }; // end max_heatmap_score
 	
 function get_current_item_count(item) {
-	(get_total_item_count(item) - (get_opponent_item_count(item) + get_my_item_count(item)));
+	return (get_total_item_count(item) - (get_opponent_item_count(item) + get_my_item_count(item)));
 }; // end get_current_item_count
 	
 function get_heatmap() {
 	//Set up heatmap to be same size as board, then zero out.
 	var board = get_board();
 	var heatmap = [];
-	var next_cell_percentage = .8;
 
 	for (var i = 0; i < board.length; i++) {
 		heatmap[i] = board[i].slice();
@@ -259,33 +210,47 @@ function get_heatmap() {
 	for (j=0;j<(board.length); j++) {
 		for (i=0;i<(board[0].length); i++) {
 			
-			var itemvalhere = (1 / ( Math.ceil( get_total_item_count( board[j][i] ) / 2) ) );
+			/*
+			*/
+			var fruittype = board[j][i]
+			var itemvalhere = 0;
+			var total_number_to_win  = Math.ceil(get_total_item_count(fruittype)/2);
+
+			if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
+			|| (get_opponent_item_count(fruittype)) > (get_total_item_count(fruittype) /2)) {
+			// if  ( total_number_to_win <= get_opponent_item_count(fruittype) ) { 
+			// total_number_to_win = total_number_to_win - get_opponent_item_count(fruittype);
+				total_number_to_win = 0;
+			} else {
+				itemvalhere = (1 / Math.abs(total_number_to_win - get_my_item_count( fruittype ) ));
+			}; // end if total_number_to_win
+			// var itemvalhere = (Math.ceil( (1 / ( Math.ceil( (get_total_item_count( fruittype )  / 2) - get_opponent_item_count(fruittype)  )) - get_my_item_count( fruittype )) *100)/100);
 			
-			if (board[j][i] > 0) {
+			if (fruittype > 0) {
 				heatmap[j][i] = itemvalhere;
 
 				itemvalhere = itemvalhere*next_cell_percentage;
-				if (i+1 < heatmap[0].length) {
-					// && board[j][i+1] > 0) {
+				if (i+1 < heatmap[0].length
+				&& board[j][i+1] > 0) {
 					heatmap[j][i+1] += itemvalhere;
-				}; // end if board[j][i]
+				}; // end if fruittype
 					
-				if (i-1 >= 0) {
-					// && board[j][i-1] > 0) {
+				if (i-1 >= 0
+				&& board[j][i-1] > 0) {
 					heatmap[j][i-1] += itemvalhere;
-				}; // end if board[j][i]
+				}; // end if fruittype
 					
-				if (j+1 < heatmap.length) {
-					// && board[j+1][i] > 0) {
+				if (j+1 < heatmap.length
+				&& board[j+1][i] > 0) {
 					heatmap[j+1][i] += itemvalhere;
-				}; // end if board[j][i]
+				}; // end if fruittype
 					
-				if (j-1 >= 0) {
-					// && board[j-1][i] > 0) {
+				if (j-1 >= 0
+				&& board[j-1][i] > 0) {
 					heatmap[j-1][i] += itemvalhere;
-				}; // end if board[j][i]
+				}; // end if fruittype
 				
-			}; // end if board[j][i]
+			}; // end if fruittype
 				
 		}; // end for i
 	}; // end for j
@@ -306,7 +271,7 @@ function locate_and_route_to_fruit(TargetX,TargetY,widthdir,heightdir) {
 	
 	if ( TargetX >= 0 && TargetX <= BoardWidth 
 	&& TargetY >= 0 && TargetY <= BoardHeight ){ 
-		 //trace("Scanning X: " + TargetX + ", Y: " + TargetY);
+		// trace("Scanning X: " + TargetX + ", Y: " + TargetY);
 		var fruittype = board[TargetX][TargetY];
 		if (fruittype > 0) {
 			//If the location has a piece of fruit, and the Width increment (distance there) is higher, go sideways, otherwise the Height increment is higher so go vertical.
