@@ -32,7 +32,7 @@ function make_move() {
 
    // we found an item! take it!
 	if (fruittypehere > 0) {
-		if (do_i_want_this(fruittypehere,mywidth,myheight,TargetX,TargetY) == true) {
+		if (do_i_want_this(fruittypehere,mywidth,myheight,mywidth,myheight) == true) {
 			trace("Taking item " + fruittypehere + " at: " + mywidth + ", " + myheight);
 			return TAKE;
 		} else {
