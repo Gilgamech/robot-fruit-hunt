@@ -16,6 +16,7 @@
 
 var heatmap_percentage = .8;
 var next_cell_percentage = .5;
+var heatmap_incr = 3;
 
 function make_move() {
 	var board = get_board();
@@ -33,7 +34,6 @@ function make_move() {
 
 	// trace("Current location: " + mywidth + ", " + myheight);
 	// trace("Board size: " + BoardWidth + ", " + BoardHeight + " - Max: " + Math.max(BoardHeight,BoardWidth));
-var heatmap_incr = 1;
 	trace("Current max heatmap: " + max_heatmap_score() + " with cutoff:" + (max_heatmap_score() * heatmap_percentage));
 
    // we found an item! take it!
@@ -215,6 +215,7 @@ function get_heatmap() {
 			*/
 			var fruittype = board[j][i]
 			var itemvalhere = 0;
+			var itemval = 0;
 			var total_number_to_win  = Math.ceil(get_total_item_count(fruittype)/2);
 
 			if ((get_my_item_count(fruittype)) > (get_total_item_count(fruittype) /2)
@@ -228,13 +229,13 @@ function get_heatmap() {
 			// var itemvalhere = (Math.ceil( (1 / ( Math.ceil( (get_total_item_count( fruittype )  / 2) - get_opponent_item_count(fruittype)  )) - get_my_item_count( fruittype )) *100)/100);
 			
 			if (fruittype > 0) {
-				heatmap[j][i] = itemval;
+				itemvalhere = itemval;
 
 				// var fc_incr = 1;
 				
 				
-				for (fc_incr = 0; fc_incr < heatmap_incr; fc_incr++) { 
-				itemvalhere = itemval*next_cell_percentage * (1/fc_incr+1);
+				for (fc_incr = 1; fc_incr < heatmap_incr; fc_incr++) { 
+				itemvalhere = itemval*next_cell_percentage * (1/(fc_incr));
 				
 					if (i+fc_incr < heatmap[0].length
 					&& board[j][i+fc_incr] > 0) {
