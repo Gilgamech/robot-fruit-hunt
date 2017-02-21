@@ -229,6 +229,30 @@ function get_heatmap() {
 			// var itemvalhere = (Math.ceil( (1 / ( Math.ceil( (get_total_item_count( fruittype )  / 2) - get_opponent_item_count(fruittype)  )) - get_my_item_count( fruittype )) *100)/100);
 			
 			if (fruittype > 0) {
+				heatmap[j][i] = itemvalhere;
+
+				itemvalhere = itemvalhere*next_cell_percentage;
+				if (i+1 < heatmap[0].length
+				&& board[j][i+1] > 0) {
+					heatmap[j][i+1] += itemvalhere;
+				}; // end if fruittype
+					
+				if (i-1 >= 0
+				&& board[j][i-1] > 0) {
+					heatmap[j][i-1] += itemvalhere;
+				}; // end if fruittype
+					
+				if (j+1 < heatmap.length
+				&& board[j+1][i] > 0) {
+					heatmap[j+1][i] += itemvalhere;
+				}; // end if fruittype
+					
+				if (j-1 >= 0
+				&& board[j-1][i] > 0) {
+					heatmap[j-1][i] += itemvalhere;
+				}; // end if fruittype
+				
+				/*
 				itemvalhere = itemval;
 
 				// var fc_incr = 1;
@@ -287,6 +311,7 @@ function get_heatmap() {
 					}; // end if fruittype
 				
 				}; // end for fc_incr
+				*/
 
 			}; // end if fruittype
 				
